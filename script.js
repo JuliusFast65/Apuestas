@@ -20,10 +20,10 @@ function startGame() {
     const numPlayers = document.getElementById('numPlayers').value;
     const initialBalance = document.getElementById('initialBalance').value;
     const playersDiv = document.getElementById('players');
-    const winnerSelect = document.getElementById('winner');
+    const betsDiv = document.getElementById('bets');
 
     playersDiv.innerHTML = '';
-    winnerSelect.innerHTML = '';
+    betsDiv.innerHTML = '';
     players = [];
 
     for (let i = 0; i < numPlayers; i++) {
@@ -40,10 +40,21 @@ function startGame() {
         div.innerText = `${player}: ${playerBalances[player]}`;
         playersDiv.appendChild(div);
 
-        const option = document.createElement('option');
-        option.value = player;
-        option.innerText = player;
-        winnerSelect.appendChild(option);
+        const betSection = document.createElement('div');
+        betSection.className = 'bet-section';
+        betSection.innerHTML = `
+            <h3>Apuestas de ${player}</h3>
+            <label for="betType-${player}">Tipo de apuesta:</label>
+            <select id="betType-${player}">
+                <option value="cuadrante">Cuadrante</option>
+                <option value="color">Color</option>
+                <option value="paridad">Par o Impar</option>
+                <option value="numero">Número</option>
+            </select>
+            <label for="betAmount-${player}">Monto apostado:</label>
+            <input type="number" id="betAmount-${player}" min="1">
+        `;
+        betsDiv.appendChild(betSection);
     });
 
     document.getElementById('playerSetup').style.display = 'none';
@@ -51,15 +62,30 @@ function startGame() {
 }
 
 function recordRound() {
-    const winner = document.getElementById('winner').value;
-    const betAmount = parseFloat(document.getElementById('betAmount').value);
-
+    const winningBet = document.getElementById('winningBet').value;
     players.forEach(player => {
-        if (player === winner) {
-            playerBalances[player] += betAmount;
+        const betType = document.getElementById(`betType-${player}`).value;
+        const betAmount = parseFloat(document.getElementById(`betAmount-${player}`).value);
+        
+        if (betType === winningBet) {
+            switch (betType) {
+                case 'cuadrante':
+                    playerBalances[player] += betAmount * 3;
+                    break;
+                case 'color':
+                    playerBalances[player] += betAmount * 2;
+                    break;
+                case 'paridad':
+                    playerBalances[player] += betAmount * 2;
+                    break;
+                case 'numero':
+                    playerBalances[player] += betAmount * 36;
+                    break;
+            }
         } else {
             playerBalances[player] -= betAmount;
         }
+        
         document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
     });
 }
