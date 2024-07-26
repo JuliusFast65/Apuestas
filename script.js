@@ -216,6 +216,12 @@ function recordRound() {
 function showBalances() {
     const playersDiv = document.getElementById('players');
     playersDiv.innerHTML = '';
+    const winningNumberDiv = document.getElementById('winningNumber');
+    const numberResult = parseInt(document.getElementById('numberResult').value);
+    const colorResult = document.getElementById('colorResult').value;
+    winningNumberDiv.textContent = numberResult;
+    winningNumberDiv.style.color = colorResult;
+
     players.forEach(player => {
         const balanceDiv = document.createElement('div');
         const previousBalance = playerPreviousBalances[player];
