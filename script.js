@@ -47,9 +47,9 @@ function startGame() {
             <h3>Apuestas de ${player}</h3>
             <label for="quadrantBet-${player}">Cuadrante:</label>
             <select id="quadrantBet-${player}">
-                <option value="cuadrante1">Cuadrante 1</option>
-                <option value="cuadrante2">Cuadrante 2</option>
-                <option value="cuadrante3">Cuadrante 3</option>
+                <option value="cuadrante1">1-12</option>
+                <option value="cuadrante2">13-24</option>
+                <option value="cuadrante3">25-36</option>
             </select>
             <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto">
             <br>
@@ -66,6 +66,17 @@ function startGame() {
                 <option value="negro">Negro</option>
             </select>
             <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto">
+            <br>
+            <label for="numberBet-${player}">Número (0-36):</label>
+            <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número">
+            <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto">
+            <br>
+            <label for="rangeBet-${player}">Baja/Alta:</label>
+            <select id="rangeBet-${player}">
+                <option value="baja">1-18</option>
+                <option value="alta">19-36</option>
+            </select>
+            <input type="number" id="rangeAmount-${player}" min="1" placeholder="Monto">
         `;
         betInputsDiv.appendChild(betSection);
     });
@@ -103,34 +114,52 @@ function recordRound() {
     }
 
     const parityResult = numberResult % 2 === 0 ? 'par' : 'impar';
+    const rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
 
     players.forEach(player => {
         const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
         const parityBet = document.getElementById(`parityBet-${player}`).value;
         const colorBet = document.getElementById(`colorBet-${player}`).value;
+        const numberBet = parseInt(document.getElementById(`numberBet-${player}`).value);
+        const rangeBet = document.getElementById(`rangeBet-${player}`).value;
+
         const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
         const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
         const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
+        const numberAmount = parseFloat(document.getElementById(`numberAmount-${player}`).value) || 0;
+        const rangeAmount = parseFloat(document.getElementById(`rangeAmount-${player}`).value) || 0;
 
         let totalWinnings = 0;
         let totalLosses = 0;
 
         if (quadrantBet === quadrantResult) {
-            totalWinnings += quadrantAmount * 2; // Se gana el doble en Cuadrante
+            totalWinnings += quadrantAmount * 2; // Se gana 2 a 1 en Cuadrante
         } else {
             totalLosses += quadrantAmount;
         }
 
         if (parityBet === parityResult) {
-            totalWinnings += parityAmount * 2; // Se gana el doble en Paridad
+            totalWinnings += parityAmount; // Se gana 1 a 1 en Paridad
         } else {
             totalLosses += parityAmount;
         }
 
         if (colorBet === colorResult) {
-            totalWinnings += colorAmount * 2; // Se gana el doble en Color
+            totalWinnings += colorAmount; // Se gana 1 a 1 en Color
         } else {
             totalLosses += colorAmount;
+        }
+
+        if (numberBet === numberResult) {
+            totalWinnings += numberAmount * 35; // Se gana 35 a 1 en Número
+        } else {
+            totalLosses += numberAmount;
+        }
+
+        if (rangeBet === rangeResult) {
+            totalWinnings += rangeAmount; // Se gana 1 a 1 en Baja/Alta
+        } else {
+            totalLosses += rangeAmount;
         }
 
         playerBalances[player] += totalWinnings;
