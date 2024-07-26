@@ -44,24 +44,30 @@ function startGame() {
         betSection.className = 'bet-section';
         betSection.innerHTML = `
             <h3>Apuestas de ${player}</h3>
-            <label for="quadrantBet-${player}">Apuesta Cuadrante:</label>
+            <label for="quadrantBet-${player}">Cuadrante:</label>
             <select id="quadrantBet-${player}">
                 <option value="cuadrante1">Cuadrante 1</option>
                 <option value="cuadrante2">Cuadrante 2</option>
                 <option value="cuadrante3">Cuadrante 3</option>
             </select>
-            <label for="parityBet-${player}">Apuesta Paridad:</label>
+            <label for="quadrantAmount-${player}">Monto apostado en Cuadrante:</label>
+            <input type="number" id="quadrantAmount-${player}" min="1">
+            <br>
+            <label for="parityBet-${player}">Paridad:</label>
             <select id="parityBet-${player}">
                 <option value="par">Par</option>
                 <option value="impar">Impar</option>
             </select>
-            <label for="colorBet-${player}">Apuesta Color:</label>
+            <label for="parityAmount-${player}">Monto apostado en Paridad:</label>
+            <input type="number" id="parityAmount-${player}" min="1">
+            <br>
+            <label for="colorBet-${player}">Color:</label>
             <select id="colorBet-${player}">
                 <option value="rojo">Rojo</option>
                 <option value="negro">Negro</option>
             </select>
-            <label for="betAmount-${player}">Monto apostado:</label>
-            <input type="number" id="betAmount-${player}" min="1">
+            <label for="colorAmount-${player}">Monto apostado en Color:</label>
+            <input type="number" id="colorAmount-${player}" min="1">
         `;
         betsDiv.appendChild(betSection);
     });
@@ -79,29 +85,31 @@ function recordRound() {
         const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
         const parityBet = document.getElementById(`parityBet-${player}`).value;
         const colorBet = document.getElementById(`colorBet-${player}`).value;
-        const betAmount = parseFloat(document.getElementById(`betAmount-${player}`).value);
-        
-        let won = false;
-        let winnings = 0;
+        const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
+        const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
+        const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
+
+        let totalWinnings = 0;
 
         if (quadrantBet === quadrantResult) {
-            winnings += betAmount * 3;
-            won = true;
-        }
-        if (parityBet === parityResult) {
-            winnings += betAmount * 2;
-            won = true;
-        }
-        if (colorBet === colorResult) {
-            winnings += betAmount * 2;
-            won = true;
+            totalWinnings += quadrantAmount * 3;
+        } else {
+            totalWinnings -= quadrantAmount;
         }
 
-        if (won) {
-            playerBalances[player] += winnings;
+        if (parityBet === parityResult) {
+            totalWinnings += parityAmount * 2;
         } else {
-            playerBalances[player] -= betAmount;
+            totalWinnings -= parityAmount;
         }
+
+        if (colorBet === colorResult) {
+            totalWinnings += colorAmount * 2;
+        } else {
+            totalWinnings -= colorAmount;
+        }
+
+        playerBalances[player] += totalWinnings;
 
         document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
     });
