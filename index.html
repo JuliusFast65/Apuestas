@@ -24,10 +24,15 @@
         <h1>Rondas de Apuestas</h1>
         <div id="players"></div>
         <div id="round">
-            <label for="winner">Jugador ganador:</label>
-            <select id="winner"></select>
-            <label for="betAmount">Monto apostado:</label>
-            <input type="number" id="betAmount" min="1">
+            <h2>Registrar Apuestas</h2>
+            <div id="bets"></div>
+            <label for="winningBet">Tipo de apuesta ganadora:</label>
+            <select id="winningBet">
+                <option value="cuadrante">Cuadrante</option>
+                <option value="color">Color</option>
+                <option value="paridad">Par o Impar</option>
+                <option value="numero">Número</option>
+            </select>
             <button onclick="recordRound()">Registrar Ronda</button>
         </div>
     </div>
