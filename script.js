@@ -46,10 +46,13 @@ function startGame() {
             <h3>Apuestas de ${player}</h3>
             <label for="betType-${player}">Tipo de apuesta:</label>
             <select id="betType-${player}">
-                <option value="cuadrante">Cuadrante</option>
-                <option value="color">Color</option>
-                <option value="paridad">Par o Impar</option>
-                <option value="numero">Número</option>
+                <option value="cuadrante1">Cuadrante 1</option>
+                <option value="cuadrante2">Cuadrante 2</option>
+                <option value="cuadrante3">Cuadrante 3</option>
+                <option value="par">Par</option>
+                <option value="impar">Impar</option>
+                <option value="rojo">Rojo</option>
+                <option value="negro">Negro</option>
             </select>
             <label for="betAmount-${player}">Monto apostado:</label>
             <input type="number" id="betAmount-${player}" min="1">
@@ -62,24 +65,28 @@ function startGame() {
 }
 
 function recordRound() {
-    const winningBet = document.getElementById('winningBet').value;
+    const quadrantResult = document.getElementById('quadrantResult').value;
+    const parityResult = document.getElementById('parityResult').value;
+    const colorResult = document.getElementById('colorResult').value;
+
     players.forEach(player => {
         const betType = document.getElementById(`betType-${player}`).value;
         const betAmount = parseFloat(document.getElementById(`betAmount-${player}`).value);
         
-        if (betType === winningBet) {
+        if (betType === quadrantResult || betType === parityResult || betType === colorResult) {
             switch (betType) {
-                case 'cuadrante':
+                case 'cuadrante1':
+                case 'cuadrante2':
+                case 'cuadrante3':
                     playerBalances[player] += betAmount * 3;
                     break;
-                case 'color':
+                case 'par':
+                case 'impar':
                     playerBalances[player] += betAmount * 2;
                     break;
-                case 'paridad':
+                case 'rojo':
+                case 'negro':
                     playerBalances[player] += betAmount * 2;
-                    break;
-                case 'numero':
-                    playerBalances[player] += betAmount * 36;
                     break;
             }
         } else {
