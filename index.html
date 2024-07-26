@@ -26,12 +26,21 @@
         <div id="round">
             <h2>Registrar Apuestas</h2>
             <div id="bets"></div>
-            <label for="winningBet">Tipo de apuesta ganadora:</label>
-            <select id="winningBet">
-                <option value="cuadrante">Cuadrante</option>
-                <option value="color">Color</option>
-                <option value="paridad">Par o Impar</option>
-                <option value="numero">Número</option>
+            <label for="quadrantResult">Resultado Cuadrante:</label>
+            <select id="quadrantResult">
+                <option value="cuadrante1">Cuadrante 1</option>
+                <option value="cuadrante2">Cuadrante 2</option>
+                <option value="cuadrante3">Cuadrante 3</option>
+            </select>
+            <label for="parityResult">Resultado Paridad:</label>
+            <select id="parityResult">
+                <option value="par">Par</option>
+                <option value="impar">Impar</option>
+            </select>
+            <label for="colorResult">Resultado Color:</label>
+            <select id="colorResult">
+                <option value="rojo">Rojo</option>
+                <option value="negro">Negro</option>
             </select>
             <button onclick="recordRound()">Registrar Ronda</button>
         </div>
