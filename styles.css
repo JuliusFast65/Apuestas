@@ -74,6 +74,7 @@ label {
 
 #roulette {
     margin: 20px 0;
+    position: relative;
 }
 
 #rouletteWheel {
@@ -84,7 +85,6 @@ label {
     margin: 20px auto;
     background: conic-gradient(red, black, red, black, red, black, red, black);
     position: relative;
-    animation: spin 3s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;
 }
 
 #rouletteWheel::before {
@@ -99,11 +99,15 @@ label {
     transform: translate(-50%, -50%) rotate(0deg);
 }
 
+#rouletteWheel.spin {
+    animation: spin 5s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
     }
     100% {
-        transform: rotate(1440deg); /* 4 full spins */
+        transform: rotate(1800deg); /* 5 full spins */
     }
 }
