@@ -111,8 +111,7 @@ function recordRound() {
             totalLosses += colorAmount;
         }
 
-        playerBalances[player] += totalWinnings;
-        playerBalances[player] -= totalLosses;
+        playerBalances[player] += totalWinnings - totalLosses;
 
         houseBalance -= totalWinnings;
         houseBalance += totalLosses;
