@@ -7,3 +7,11 @@ body {
 label, input, button {
     margin: 10px;
 }
+
+#bets {
+    margin-top: 20px;
+}
+
+.bet-section {
+    margin-bottom: 20px;
+}
