@@ -51,24 +51,21 @@ function startGame() {
                 <option value="cuadrante2">Cuadrante 2</option>
                 <option value="cuadrante3">Cuadrante 3</option>
             </select>
-            <label for="quadrantAmount-${player}">Apuesta:</label>
-            <input type="number" id="quadrantAmount-${player}" min="1">
+            <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto">
             <br>
             <label for="parityBet-${player}">Paridad:</label>
             <select id="parityBet-${player}">
                 <option value="par">Par</option>
                 <option value="impar">Impar</option>
             </select>
-            <label for="parityAmount-${player}">Apuesta:</label>
-            <input type="number" id="parityAmount-${player}" min="1">
+            <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto">
             <br>
             <label for="colorBet-${player}">Color:</label>
             <select id="colorBet-${player}">
                 <option value="rojo">Rojo</option>
                 <option value="negro">Negro</option>
             </select>
-            <label for="colorAmount-${player}">Apuesta:</label>
-            <input type="number" id="colorAmount-${player}" min="1">
+            <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto">
         `;
         betInputsDiv.appendChild(betSection);
     });
@@ -93,9 +90,19 @@ function goToBets() {
 }
 
 function recordRound() {
-    const quadrantResult = document.getElementById('quadrantResult').value;
-    const parityResult = document.getElementById('parityResult').value;
+    const numberResult = parseInt(document.getElementById('numberResult').value);
     const colorResult = document.getElementById('colorResult').value;
+
+    let quadrantResult = '';
+    if (numberResult >= 1 && numberResult <= 12) {
+        quadrantResult = 'cuadrante1';
+    } else if (numberResult >= 13 && numberResult <= 24) {
+        quadrantResult = 'cuadrante2';
+    } else if (numberResult >= 25 && numberResult <= 36) {
+        quadrantResult = 'cuadrante3';
+    }
+
+    const parityResult = numberResult % 2 === 0 ? 'par' : 'impar';
 
     players.forEach(player => {
         const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
