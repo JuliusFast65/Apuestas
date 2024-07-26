@@ -116,24 +116,25 @@ function recordRound() {
         let totalLosses = 0;
 
         if (quadrantBet === quadrantResult) {
-            totalWinnings += quadrantAmount * 3;
+            totalWinnings += quadrantAmount * 2; // Se gana el doble en Cuadrante
         } else {
             totalLosses += quadrantAmount;
         }
 
         if (parityBet === parityResult) {
-            totalWinnings += parityAmount * 2;
+            totalWinnings += parityAmount * 2; // Se gana el doble en Paridad
         } else {
             totalLosses += parityAmount;
         }
 
         if (colorBet === colorResult) {
-            totalWinnings += colorAmount * 2;
+            totalWinnings += colorAmount * 2; // Se gana el doble en Color
         } else {
             totalLosses += colorAmount;
         }
 
-        playerBalances[player] += totalWinnings - totalLosses;
+        playerBalances[player] += totalWinnings;
+        playerBalances[player] -= totalLosses;
 
         houseBalance -= totalWinnings;
         houseBalance += totalLosses;
