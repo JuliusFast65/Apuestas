@@ -84,4 +84,141 @@ function startGame() {
         betInputsDiv.appendChild(betSection);
     });
 
-    document.getElementById('playerSetup').style.display =
+    document.getElementById('playerSetup').style.display = 'none';
+    document.getElementById('bets').style.display = 'block';
+}
+
+function goToResults() {
+    document.getElementById('bets').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+}
+
+function goToBalances() {
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('balances').style.display = 'block';
+}
+
+function goToBets() {
+    document.getElementById('balances').style.display = 'none';
+    document.getElementById('bets').style.display = 'block';
+}
+
+function spinRoulette() {
+    const numberResult = Math.floor(Math.random() * 37);
+    const colorResult = numberResult === 0 ? 'verde' : (numberResult % 2 === 0 ? 'negro' : 'rojo');
+
+    document.getElementById('numberResult').value = numberResult;
+    document.getElementById('colorResult').value = colorResult;
+}
+
+function recordRound() {
+    const numberResult = parseInt(document.getElementById('numberResult').value);
+    const colorResult = document.getElementById('colorResult').value;
+
+    let quadrantResult = '';
+    if (numberResult >= 1 && numberResult <= 12) {
+        quadrantResult = 'cuadrante1';
+    } else if (numberResult >= 13 && numberResult <= 24) {
+        quadrantResult = 'cuadrante2';
+    } else if (numberResult >= 25 && numberResult <= 36) {
+        quadrantResult = 'cuadrante3';
+    }
+
+    const parityResult = numberResult % 2 === 0 ? 'par' : 'impar';
+    const rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
+
+    players.forEach(player => {
+        playerPreviousBalances[player] = playerBalances[player];
+
+        const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
+        const parityBet = document.getElementById(`parityBet-${player}`).value;
+        const colorBet = document.getElementById(`colorBet-${player}`).value;
+        const numberBet = parseInt(document.getElementById(`numberBet-${player}`).value);
+        const rangeBet = document.getElementById(`rangeBet-${player}`).value;
+
+        const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
+        const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
+        const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
+        const numberAmount = parseFloat(document.getElementById(`numberAmount-${player}`).value) || 0;
+        const rangeAmount = parseFloat(document.getElementById(`rangeAmount-${player}`).value) || 0;
+
+        let totalWinnings = 0;
+        let totalLosses = 0;
+
+        if (quadrantBet === quadrantResult) {
+            totalWinnings += quadrantAmount * 2; // Se gana 2 a 1 en Cuadrante
+        } else {
+            totalLosses += quadrantAmount;
+        }
+
+        if (parityBet === parityResult) {
+            totalWinnings += parityAmount; // Se gana 1 a 1 en Paridad
+        } else {
+            totalLosses += parityAmount;
+        }
+
+        if (colorBet === colorResult) {
+            totalWinnings += colorAmount; // Se gana 1 a 1 en Color
+        } else {
+            totalLosses += colorAmount;
+        }
+
+        if (numberBet === numberResult) {
+            totalWinnings += numberAmount * 35; // Se gana 35 a 1 en Número
+        } else {
+            totalLosses += numberAmount;
+        }
+
+        if (rangeBet === rangeResult) {
+            totalWinnings += rangeAmount; // Se gana 1 a 1 en Baja/Alta
+        } else {
+            totalLosses += rangeAmount;
+        }
+
+        playerBalances[player] += totalWinnings;
+        playerBalances[player] -= totalLosses;
+
+        houseBalance -= totalWinnings;
+        houseBalance += totalLosses;
+
+        document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
+    });
+
+    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
+    showBalances();
+}
+
+function showBalances() {
+    const playersDiv = document.getElementById('players');
+    playersDiv.innerHTML = '';
+    players.forEach(player => {
+        const balanceDiv = document.createElement('div');
+        const previousBalance = playerPreviousBalances[player];
+        const currentBalance = playerBalances[player];
+        const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
+        const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
+        const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
+        const numberAmount = parseFloat(document.getElementById(`numberAmount-${player}`).value) || 0;
+        const rangeAmount = parseFloat(document.getElementById(`rangeAmount-${player}`).value) || 0;
+        const totalBets = quadrantAmount + parityAmount + colorAmount + numberAmount + rangeAmount;
+        const netResult = currentBalance - previousBalance;
+
+        balanceDiv.innerHTML = `
+            <h3>${player}</h3>
+            <p>Saldo Anterior: ${previousBalance}</p>
+            <p>Apuestas:</p>
+            <ul>
+                <li>Cuadrante: ${quadrantAmount}</li>
+                <li>Paridad: ${parityAmount}</li>
+                <li>Color: ${colorAmount}</li>
+                <li>Número: ${numberAmount}</li>
+                <li>Baja/Alta: ${rangeAmount}</li>
+            </ul>
+            <p>Total Apostado: ${totalBets}</p>
+            <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
+            <p>Nuevo Saldo: ${currentBalance}</p>
+        `;
+        playersDiv.appendChild(balanceDiv);
+    });
+    goToBalances();
+}
