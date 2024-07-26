@@ -187,18 +187,25 @@ function showBalances() {
         const balanceDiv = document.createElement('div');
         const previousBalance = playerPreviousBalances[player];
         const currentBalance = playerBalances[player];
-        const totalBets = (
-            (parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0) +
-            (parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0) +
-            (parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0) +
-            (parseFloat(document.getElementById(`numberAmount-${player}`).value) || 0) +
-            (parseFloat(document.getElementById(`rangeAmount-${player}`).value) || 0)
-        );
+        const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
+        const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
+        const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
+        const numberAmount = parseFloat(document.getElementById(`numberAmount-${player}`).value) || 0;
+        const rangeAmount = parseFloat(document.getElementById(`rangeAmount-${player}`).value) || 0;
+        const totalBets = quadrantAmount + parityAmount + colorAmount + numberAmount + rangeAmount;
         const netResult = currentBalance - previousBalance;
 
         balanceDiv.innerHTML = `
             <h3>${player}</h3>
             <p>Saldo Anterior: ${previousBalance}</p>
+            <p>Apuestas:</p>
+            <ul>
+                <li>Cuadrante: ${quadrantAmount}</li>
+                <li>Paridad: ${parityAmount}</li>
+                <li>Color: ${colorAmount}</li>
+                <li>Número: ${numberAmount}</li>
+                <li>Baja/Alta: ${rangeAmount}</li>
+            </ul>
             <p>Total Apostado: ${totalBets}</p>
             <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
             <p>Nuevo Saldo: ${currentBalance}</p>
