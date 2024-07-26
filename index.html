@@ -30,13 +30,14 @@
 
     <div id="results" class="container" style="display:none;">
         <h1>Resultados de la Ronda</h1>
+        <div id="roulette">
+            <div id="rouletteWheel"></div>
+            <button onclick="spinRoulette()" class="btn">Girar Ruleta</button>
+        </div>
         <label for="numberResult">Resultado Número:</label>
-        <input type="number" id="numberResult" min="0" max="36" class="input">
+        <input type="number" id="numberResult" min="0" max="36" class="input" readonly>
         <label for="colorResult">Resultado Color:</label>
-        <select id="colorResult" class="input">
-            <option value="rojo">Rojo</option>
-            <option value="negro">Negro</option>
-        </select>
+        <input type="text" id="colorResult" class="input" readonly>
         <button onclick="recordRound()" class="btn">Registrar Ronda</button>
     </div>
 
