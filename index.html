@@ -13,6 +13,7 @@
         <input type="number" id="numPlayers" min="1">
         <button onclick="setupGame()">Siguiente</button>
     </div>
+
     <div id="playerSetup" style="display:none;">
         <h1>Ingrese los nombres de los jugadores y el saldo inicial</h1>
         <div id="playerInputs"></div>
@@ -20,36 +21,42 @@
         <input type="number" id="initialBalance" min="1">
         <button onclick="startGame()">Comenzar Juego</button>
     </div>
-    <div id="game" style="display:none;">
-        <h1>Rondas de Apuestas</h1>
-        <div id="players"></div>
-        <div id="round">
-            <h2>Registrar Apuestas</h2>
-            <div id="bets"></div>
-            <h2>Resultados de la Ronda</h2>
-            <label for="quadrantResult">Resultado Cuadrante:</label>
-            <select id="quadrantResult">
-                <option value="cuadrante1">Cuadrante 1</option>
-                <option value="cuadrante2">Cuadrante 2</option>
-                <option value="cuadrante3">Cuadrante 3</option>
-            </select>
-            <label for="parityResult">Resultado Paridad:</label>
-            <select id="parityResult">
-                <option value="par">Par</option>
-                <option value="impar">Impar</option>
-            </select>
-            <label for="colorResult">Resultado Color:</label>
-            <select id="colorResult">
-                <option value="rojo">Rojo</option>
-                <option value="negro">Negro</option>
-            </select>
-            <button onclick="recordRound()">Registrar Ronda</button>
-        </div>
-        <div id="house">
-            <h2>Saldo de la Casa</h2>
-            <div id="houseBalance">0</div>
-        </div>
+
+    <div id="bets" style="display:none;">
+        <h1>Registrar Apuestas</h1>
+        <div id="betInputs"></div>
+        <button onclick="goToResults()">Registrar Resultados</button>
     </div>
+
+    <div id="results" style="display:none;">
+        <h1>Resultados de la Ronda</h1>
+        <label for="quadrantResult">Resultado Cuadrante:</label>
+        <select id="quadrantResult">
+            <option value="cuadrante1">Cuadrante 1</option>
+            <option value="cuadrante2">Cuadrante 2</option>
+            <option value="cuadrante3">Cuadrante 3</option>
+        </select>
+        <label for="parityResult">Resultado Paridad:</label>
+        <select id="parityResult">
+            <option value="par">Par</option>
+            <option value="impar">Impar</option>
+        </select>
+        <label for="colorResult">Resultado Color:</label>
+        <select id="colorResult">
+            <option value="rojo">Rojo</option>
+            <option value="negro">Negro</option>
+        </select>
+        <button onclick="recordRound()">Registrar Ronda</button>
+    </div>
+
+    <div id="balances" style="display:none;">
+        <h1>Saldos de los Jugadores</h1>
+        <div id="players"></div>
+        <h2>Saldo de la Casa</h2>
+        <div id="houseBalance">0</div>
+        <button onclick="goToBets()">Ir a Apuestas</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
