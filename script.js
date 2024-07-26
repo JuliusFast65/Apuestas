@@ -109,9 +109,20 @@ function spinRoulette() {
 
     const rouletteWheel = document.getElementById('rouletteWheel');
     rouletteWheel.classList.add('spin');
-    
+
+    const rouletteNumber = document.getElementById('rouletteNumber');
+    const spinInterval = setInterval(() => {
+        const currentNumber = Math.floor(Math.random() * 37);
+        const currentColor = currentNumber === 0 ? 'verde' : (currentNumber % 2 === 0 ? 'negro' : 'rojo');
+        rouletteNumber.textContent = currentNumber;
+        rouletteNumber.style.color = currentColor;
+    }, 100);
+
     setTimeout(() => {
+        clearInterval(spinInterval);
         rouletteWheel.classList.remove('spin');
+        rouletteNumber.textContent = numberResult;
+        rouletteNumber.style.color = colorResult;
         document.getElementById('numberResult').value = numberResult;
         document.getElementById('colorResult').value = colorResult;
     }, 5000);
