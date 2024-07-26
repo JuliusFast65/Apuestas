@@ -1,5 +1,6 @@
 let players = [];
 let playerBalances = {};
+let houseBalance = 0;
 
 function setupGame() {
     const numPlayers = document.getElementById('numPlayers').value;
@@ -90,27 +91,34 @@ function recordRound() {
         const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
 
         let totalWinnings = 0;
+        let totalLosses = 0;
 
         if (quadrantBet === quadrantResult) {
             totalWinnings += quadrantAmount * 3;
         } else {
-            totalWinnings -= quadrantAmount;
+            totalLosses += quadrantAmount;
         }
 
         if (parityBet === parityResult) {
             totalWinnings += parityAmount * 2;
         } else {
-            totalWinnings -= parityAmount;
+            totalLosses += parityAmount;
         }
 
         if (colorBet === colorResult) {
             totalWinnings += colorAmount * 2;
         } else {
-            totalWinnings -= colorAmount;
+            totalLosses += colorAmount;
         }
 
         playerBalances[player] += totalWinnings;
+        playerBalances[player] -= totalLosses;
+
+        houseBalance -= totalWinnings;
+        houseBalance += totalLosses;
 
         document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
     });
+
+    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
 }
