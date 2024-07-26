@@ -107,14 +107,14 @@ function spinRoulette() {
     const numberResult = Math.floor(Math.random() * 37);
     const colorResult = numberResult === 0 ? 'verde' : (numberResult % 2 === 0 ? 'negro' : 'rojo');
 
-    document.getElementById('numberResult').value = numberResult;
-    document.getElementById('colorResult').value = colorResult;
-
     const rouletteWheel = document.getElementById('rouletteWheel');
-    rouletteWheel.style.animation = 'spin 3s cubic-bezier(0.47, 0, 0.745, 0.715) forwards';
+    rouletteWheel.classList.add('spin');
+    
     setTimeout(() => {
-        rouletteWheel.style.animation = '';
-    }, 3000);
+        rouletteWheel.classList.remove('spin');
+        document.getElementById('numberResult').value = numberResult;
+        document.getElementById('colorResult').value = colorResult;
+    }, 5000);
 }
 
 function recordRound() {
