@@ -1,5 +1,6 @@
 let players = [];
 let playerBalances = {};
+let playerPreviousBalances = {};
 let houseBalance = 0;
 
 function setupGame() {
@@ -11,6 +12,7 @@ function setupGame() {
         input.type = 'text';
         input.placeholder = `Jugador ${i + 1}`;
         input.id = `player${i}`;
+        input.className = 'input';
         playerInputs.appendChild(input);
     }
     document.getElementById('setup').style.display = 'none';
@@ -32,6 +34,7 @@ function startGame() {
         if (playerName) {
             players.push(playerName);
             playerBalances[playerName] = parseFloat(initialBalance);
+            playerPreviousBalances[playerName] = parseFloat(initialBalance);
         }
     }
 
@@ -46,37 +49,37 @@ function startGame() {
         betSection.innerHTML = `
             <h3>Apuestas de ${player}</h3>
             <label for="quadrantBet-${player}">Cuadrante:</label>
-            <select id="quadrantBet-${player}">
+            <select id="quadrantBet-${player}" class="input">
                 <option value="cuadrante1">1-12</option>
                 <option value="cuadrante2">13-24</option>
                 <option value="cuadrante3">25-36</option>
             </select>
-            <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto">
+            <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
             <label for="parityBet-${player}">Paridad:</label>
-            <select id="parityBet-${player}">
+            <select id="parityBet-${player}" class="input">
                 <option value="par">Par</option>
                 <option value="impar">Impar</option>
             </select>
-            <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto">
+            <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
             <label for="colorBet-${player}">Color:</label>
-            <select id="colorBet-${player}">
+            <select id="colorBet-${player}" class="input">
                 <option value="rojo">Rojo</option>
                 <option value="negro">Negro</option>
             </select>
-            <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto">
+            <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
             <label for="numberBet-${player}">Número (0-36):</label>
-            <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número">
-            <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto">
+            <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número" class="input">
+            <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
             <label for="rangeBet-${player}">Baja/Alta:</label>
-            <select id="rangeBet-${player}">
+            <select id="rangeBet-${player}" class="input">
                 <option value="baja">1-18</option>
                 <option value="alta">19-36</option>
             </select>
-            <input type="number" id="rangeAmount-${player}" min="1" placeholder="Monto">
+            <input type="number" id="rangeAmount-${player}" min="1" placeholder="Monto" class="input">
         `;
         betInputsDiv.appendChild(betSection);
     });
@@ -117,6 +120,8 @@ function recordRound() {
     const rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
 
     players.forEach(player => {
+        playerPreviousBalances[player] = playerBalances[player];
+
         const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
         const parityBet = document.getElementById(`parityBet-${player}`).value;
         const colorBet = document.getElementById(`colorBet-${player}`).value;
@@ -172,5 +177,33 @@ function recordRound() {
     });
 
     document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
+    showBalances();
+}
+
+function showBalances() {
+    const playersDiv = document.getElementById('players');
+    playersDiv.innerHTML = '';
+    players.forEach(player => {
+        const balanceDiv = document.createElement('div');
+        const previousBalance = playerPreviousBalances[player];
+        const currentBalance = playerBalances[player];
+        const totalBets = (
+            (parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0) +
+            (parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0) +
+            (parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0) +
+            (parseFloat(document.getElementById(`numberAmount-${player}`).value) || 0) +
+            (parseFloat(document.getElementById(`rangeAmount-${player}`).value) || 0)
+        );
+        const netResult = currentBalance - previousBalance;
+
+        balanceDiv.innerHTML = `
+            <h3>${player}</h3>
+            <p>Saldo Anterior: ${previousBalance}</p>
+            <p>Total Apostado: ${totalBets}</p>
+            <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
+            <p>Nuevo Saldo: ${currentBalance}</p>
+        `;
+        playersDiv.appendChild(balanceDiv);
+    });
     goToBalances();
 }
