@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Apuestas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="setup">
+        <h1>Configuración del Juego</h1>
+        <label for="numPlayers">Cantidad de jugadores:</label>
+        <input type="number" id="numPlayers" min="1">
+        <button onclick="setupGame()">Siguiente</button>
+    </div>
+    <div id="playerSetup" style="display:none;">
+        <h1>Ingrese los nombres de los jugadores y el saldo inicial</h1>
+        <div id="playerInputs"></div>
+        <label for="initialBalance">Saldo inicial:</label>
+        <input type="number" id="initialBalance" min="1">
+        <button onclick="startGame()">Comenzar Juego</button>
+    </div>
+    <div id="game" style="display:none;">
+        <h1>Rondas de Apuestas</h1>
+        <div id="players"></div>
+        <div id="round">
+            <label for="winner">Jugador ganador:</label>
+            <select id="winner"></select>
+            <label for="betAmount">Monto apostado:</label>
+            <input type="number" id="betAmount" min="1">
+            <button onclick="recordRound()">Registrar Ronda</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
