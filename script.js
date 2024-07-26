@@ -109,6 +109,12 @@ function spinRoulette() {
 
     document.getElementById('numberResult').value = numberResult;
     document.getElementById('colorResult').value = colorResult;
+
+    const rouletteWheel = document.getElementById('rouletteWheel');
+    rouletteWheel.style.animation = 'spin 3s cubic-bezier(0.47, 0, 0.745, 0.715) forwards';
+    setTimeout(() => {
+        rouletteWheel.style.animation = '';
+    }, 3000);
 }
 
 function recordRound() {
