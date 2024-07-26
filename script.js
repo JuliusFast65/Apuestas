@@ -3,6 +3,14 @@ let playerBalances = {};
 let playerPreviousBalances = {};
 let houseBalance = 0;
 
+const rouletteColors = [
+    "verde", // 0
+    "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
+    "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",
+    "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
+    "negro", "rojo", "negro", "rojo", "negro", "rojo"
+];
+
 function setupGame() {
     const numPlayers = document.getElementById('numPlayers').value;
     const playerInputs = document.getElementById('playerInputs');
@@ -105,7 +113,7 @@ function goToBets() {
 
 function spinRoulette() {
     const numberResult = Math.floor(Math.random() * 37);
-    const colorResult = numberResult === 0 ? 'verde' : (numberResult % 2 === 0 ? 'negro' : 'rojo');
+    const colorResult = rouletteColors[numberResult];
 
     const rouletteWheel = document.getElementById('rouletteWheel');
     rouletteWheel.classList.add('spin');
@@ -113,7 +121,7 @@ function spinRoulette() {
     const rouletteNumber = document.getElementById('rouletteNumber');
     const spinInterval = setInterval(() => {
         const currentNumber = Math.floor(Math.random() * 37);
-        const currentColor = currentNumber === 0 ? 'verde' : (currentNumber % 2 === 0 ? 'negro' : 'rojo');
+        const currentColor = rouletteColors[currentNumber];
         rouletteNumber.textContent = currentNumber;
         rouletteNumber.style.color = currentColor;
     }, 100);
@@ -239,3 +247,4 @@ function showBalances() {
     });
     goToBalances();
 }
+            
