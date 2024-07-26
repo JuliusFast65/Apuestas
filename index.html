@@ -7,45 +7,45 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="setup">
+    <div id="setup" class="container">
         <h1>Configuración del Juego</h1>
         <label for="numPlayers">Cantidad de jugadores:</label>
-        <input type="number" id="numPlayers" min="1">
-        <button onclick="setupGame()">Siguiente</button>
+        <input type="number" id="numPlayers" min="1" class="input">
+        <button onclick="setupGame()" class="btn">Siguiente</button>
     </div>
 
-    <div id="playerSetup" style="display:none;">
+    <div id="playerSetup" class="container" style="display:none;">
         <h1>Ingrese los nombres de los jugadores y el saldo inicial</h1>
         <div id="playerInputs"></div>
         <label for="initialBalance">Saldo inicial:</label>
-        <input type="number" id="initialBalance" min="1">
-        <button onclick="startGame()">Comenzar Juego</button>
+        <input type="number" id="initialBalance" min="1" class="input">
+        <button onclick="startGame()" class="btn">Comenzar Juego</button>
     </div>
 
-    <div id="bets" style="display:none;">
+    <div id="bets" class="container" style="display:none;">
         <h1>Registrar Apuestas</h1>
         <div id="betInputs"></div>
-        <button onclick="goToResults()">Registrar Resultados</button>
+        <button onclick="goToResults()" class="btn">Registrar Resultados</button>
     </div>
 
-    <div id="results" style="display:none;">
+    <div id="results" class="container" style="display:none;">
         <h1>Resultados de la Ronda</h1>
         <label for="numberResult">Resultado Número:</label>
-        <input type="number" id="numberResult" min="0" max="36">
+        <input type="number" id="numberResult" min="0" max="36" class="input">
         <label for="colorResult">Resultado Color:</label>
-        <select id="colorResult">
+        <select id="colorResult" class="input">
             <option value="rojo">Rojo</option>
             <option value="negro">Negro</option>
         </select>
-        <button onclick="recordRound()">Registrar Ronda</button>
+        <button onclick="recordRound()" class="btn">Registrar Ronda</button>
     </div>
 
-    <div id="balances" style="display:none;">
+    <div id="balances" class="container" style="display:none;">
         <h1>Saldos de los Jugadores</h1>
         <div id="players"></div>
         <h2>Saldo de la Casa</h2>
         <div id="houseBalance">0</div>
-        <button onclick="goToBets()">Ir a Apuestas</button>
+        <button onclick="goToBets()" class="btn">Ir a Apuestas</button>
     </div>
 
     <script src="script.js"></script>
