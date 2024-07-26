@@ -56,7 +56,7 @@ function startGame() {
         betSection.className = 'bet-section';
         betSection.innerHTML = `
             <h3>Apuestas de ${player}</h3>
-            <label for="quadrantBet-${player}">Cuadrante:</label>
+            <label for="quadrantBet-${player}">Cuadrante (paga 2 a 1):</label>
             <select id="quadrantBet-${player}" class="input">
                 <option value="cuadrante1">1-12</option>
                 <option value="cuadrante2">13-24</option>
@@ -64,25 +64,25 @@ function startGame() {
             </select>
             <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
-            <label for="parityBet-${player}">Paridad:</label>
+            <label for="parityBet-${player}">Paridad (paga 1 a 1):</label>
             <select id="parityBet-${player}" class="input">
                 <option value="par">Par</option>
                 <option value="impar">Impar</option>
             </select>
             <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
-            <label for="colorBet-${player}">Color:</label>
+            <label for="colorBet-${player}">Color (paga 1 a 1):</label>
             <select id="colorBet-${player}" class="input">
                 <option value="rojo">Rojo</option>
                 <option value="negro">Negro</option>
             </select>
             <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
-            <label for="numberBet-${player}">Número (0-36):</label>
+            <label for="numberBet-${player}">Número (paga 35 a 1):</label>
             <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número" class="input">
             <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto" class="input">
             <br>
-            <label for="rangeBet-${player}">Baja/Alta:</label>
+            <label for="rangeBet-${player}">Baja/Alta (paga 1 a 1):</label>
             <select id="rangeBet-${player}" class="input">
                 <option value="baja">1-18</option>
                 <option value="alta">19-36</option>
@@ -149,7 +149,7 @@ function recordRound() {
         quadrantResult = 'cuadrante3';
     }
 
-    const parityResult = numberResult % 2 === 0 ? 'par' : 'impar';
+    const parityResult = (numberResult !== 0) ? (numberResult % 2 === 0 ? 'par' : 'impar') : null;
     const rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
 
     players.forEach(player => {
@@ -247,4 +247,3 @@ function showBalances() {
     });
     goToBalances();
 }
-            
