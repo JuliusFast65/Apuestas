@@ -21,10 +21,10 @@ function startGame() {
     const numPlayers = document.getElementById('numPlayers').value;
     const initialBalance = document.getElementById('initialBalance').value;
     const playersDiv = document.getElementById('players');
-    const betsDiv = document.getElementById('bets');
+    const betInputsDiv = document.getElementById('betInputs');
 
     playersDiv.innerHTML = '';
-    betsDiv.innerHTML = '';
+    betInputsDiv.innerHTML = '';
     players = [];
 
     for (let i = 0; i < numPlayers; i++) {
@@ -51,7 +51,7 @@ function startGame() {
                 <option value="cuadrante2">Cuadrante 2</option>
                 <option value="cuadrante3">Cuadrante 3</option>
             </select>
-            <label for="quadrantAmount-${player}">Monto apostado en Cuadrante:</label>
+            <label for="quadrantAmount-${player}">Apuesta:</label>
             <input type="number" id="quadrantAmount-${player}" min="1">
             <br>
             <label for="parityBet-${player}">Paridad:</label>
@@ -59,7 +59,7 @@ function startGame() {
                 <option value="par">Par</option>
                 <option value="impar">Impar</option>
             </select>
-            <label for="parityAmount-${player}">Monto apostado en Paridad:</label>
+            <label for="parityAmount-${player}">Apuesta:</label>
             <input type="number" id="parityAmount-${player}" min="1">
             <br>
             <label for="colorBet-${player}">Color:</label>
@@ -67,14 +67,29 @@ function startGame() {
                 <option value="rojo">Rojo</option>
                 <option value="negro">Negro</option>
             </select>
-            <label for="colorAmount-${player}">Monto apostado en Color:</label>
+            <label for="colorAmount-${player}">Apuesta:</label>
             <input type="number" id="colorAmount-${player}" min="1">
         `;
-        betsDiv.appendChild(betSection);
+        betInputsDiv.appendChild(betSection);
     });
 
     document.getElementById('playerSetup').style.display = 'none';
-    document.getElementById('game').style.display = 'block';
+    document.getElementById('bets').style.display = 'block';
+}
+
+function goToResults() {
+    document.getElementById('bets').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+}
+
+function goToBalances() {
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('balances').style.display = 'block';
+}
+
+function goToBets() {
+    document.getElementById('balances').style.display = 'none';
+    document.getElementById('bets').style.display = 'block';
 }
 
 function recordRound() {
@@ -120,4 +135,5 @@ function recordRound() {
     });
 
     document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
+    goToBalances();
 }
