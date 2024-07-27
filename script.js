@@ -118,15 +118,15 @@ function spinRoulette() {
     const rouletteWheel = document.getElementById('rouletteWheel');
     rouletteWheel.classList.add('spin');
 
-    const rouletteNumber = document.getElementById('rouletteNumber');
+    const rouletteNumberText = document.getElementById('rouletteNumberText');
     const rouletteSound = document.getElementById('rouletteSound');
     rouletteSound.play();
 
     const spinInterval = setInterval(() => {
         const currentNumber = Math.floor(Math.random() * 37);
         const currentColor = rouletteColors[currentNumber];
-        rouletteNumber.textContent = currentNumber;
-        rouletteNumber.style.color = currentColor;
+        rouletteNumberText.textContent = currentNumber;
+        rouletteNumberText.style.color = currentColor;
     }, 100);
 
     setTimeout(() => {
@@ -134,8 +134,8 @@ function spinRoulette() {
         rouletteWheel.classList.remove('spin');
         rouletteSound.pause();
         rouletteSound.currentTime = 0;
-        rouletteNumber.textContent = numberResult;
-        rouletteNumber.style.color = colorResult;
+        rouletteNumberText.textContent = numberResult;
+        rouletteNumberText.style.color = colorResult;
         document.getElementById('numberResult').value = numberResult;
         document.getElementById('colorResult').value = colorResult;
     }, 5000);
@@ -239,21 +239,24 @@ function showBalances() {
         const totalBets = quadrantAmount + parityAmount + colorAmount + numberAmount + rangeAmount;
         const netResult = currentBalance - previousBalance;
 
-        balanceDiv.innerHTML = `
+        let betDetails = `
             <h3>${player}</h3>
             <p>Saldo Anterior: ${previousBalance}</p>
             <p>Apuestas:</p>
-            <ul>
-                <li>Cuadrante: ${quadrantAmount}</li>
-                <li>Paridad: ${parityAmount}</li>
-                <li>Color: ${colorAmount}</li>
-                <li>Número: ${numberAmount}</li>
-                <li>Baja/Alta: ${rangeAmount}</li>
-            </ul>
+            <ul>`;
+        
+        if (quadrantAmount > 0) betDetails += `<li>Cuadrante: ${quadrantAmount}</li>`;
+        if (parityAmount > 0) betDetails += `<li>Paridad: ${parityAmount}</li>`;
+        if (colorAmount > 0) betDetails += `<li>Color: ${colorAmount}</li>`;
+        if (numberAmount > 0) betDetails += `<li>Número: ${numberAmount}</li>`;
+        if (rangeAmount > 0) betDetails += `<li>Baja/Alta: ${rangeAmount}</li>`;
+
+        betDetails += `</ul>
             <p>Total Apostado: ${totalBets}</p>
             <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
-            <p>Nuevo Saldo: ${currentBalance}</p>
-        `;
+            <p>Nuevo Saldo: ${currentBalance}</p>`;
+
+        balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
     goToBalances();
