@@ -4,11 +4,11 @@ let playerPreviousBalances = {};
 let houseBalance = 0;
 
 const rouletteColors = [
-    "verde", // 0
-    "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
-    "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",
-    "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
-    "negro", "rojo", "negro", "rojo", "negro", "rojo"
+    "green", // 0
+    "red", "black", "red", "black", "red", "black", "red", "black", "red", "black",
+    "black", "red", "black", "red", "black", "red", "black", "red", "black", "red",
+    "red", "black", "red", "black", "red", "black", "red", "black", "red", "black",
+    "black", "red", "black", "red", "black", "red"
 ];
 
 function setupGame() {
@@ -57,37 +57,37 @@ function startGame() {
         betSection.innerHTML = `
             <h3>Apuestas de ${player}</h3>
             <label for="quadrantBet-${player}">Cuadrante (paga 2 a 1):</label>
-            <select id="quadrantBet-${player}" class="input">
+            <select id="quadrantBet-${player}" class="input-half">
                 <option value="cuadrante1">1-12</option>
                 <option value="cuadrante2">13-24</option>
                 <option value="cuadrante3">25-36</option>
             </select>
-            <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto" class="input">
+            <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto" class="input-half">
             <br>
             <label for="parityBet-${player}">Paridad (paga 1 a 1):</label>
-            <select id="parityBet-${player}" class="input">
+            <select id="parityBet-${player}" class="input-half">
                 <option value="par">Par</option>
                 <option value="impar">Impar</option>
             </select>
-            <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto" class="input">
+            <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto" class="input-half">
             <br>
             <label for="colorBet-${player}">Color (paga 1 a 1):</label>
-            <select id="colorBet-${player}" class="input">
+            <select id="colorBet-${player}" class="input-half">
                 <option value="rojo">Rojo</option>
                 <option value="negro">Negro</option>
             </select>
-            <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto" class="input">
+            <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto" class="input-half">
             <br>
             <label for="numberBet-${player}">Número (paga 35 a 1):</label>
-            <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número" class="input">
-            <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto" class="input">
+            <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número" class="input-half">
+            <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto" class="input-half">
             <br>
             <label for="rangeBet-${player}">Baja/Alta (paga 1 a 1):</label>
-            <select id="rangeBet-${player}" class="input">
+            <select id="rangeBet-${player}" class="input-half">
                 <option value="baja">1-18</option>
                 <option value="alta">19-36</option>
             </select>
-            <input type="number" id="rangeAmount-${player}" min="1" placeholder="Monto" class="input">
+            <input type="number" id="rangeAmount-${player}" min="1" placeholder="Monto" class="input-half">
         `;
         betInputsDiv.appendChild(betSection);
     });
@@ -119,6 +119,9 @@ function spinRoulette() {
     rouletteWheel.classList.add('spin');
 
     const rouletteNumber = document.getElementById('rouletteNumber');
+    const rouletteSound = document.getElementById('rouletteSound');
+    rouletteSound.play();
+
     const spinInterval = setInterval(() => {
         const currentNumber = Math.floor(Math.random() * 37);
         const currentColor = rouletteColors[currentNumber];
@@ -129,6 +132,8 @@ function spinRoulette() {
     setTimeout(() => {
         clearInterval(spinInterval);
         rouletteWheel.classList.remove('spin');
+        rouletteSound.pause();
+        rouletteSound.currentTime = 0;
         rouletteNumber.textContent = numberResult;
         rouletteNumber.style.color = colorResult;
         document.getElementById('numberResult').value = numberResult;
