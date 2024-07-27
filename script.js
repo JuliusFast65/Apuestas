@@ -79,7 +79,9 @@ function startGame() {
             <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto" class="input-half">
             <br>
             <label for="numberBet-${player}">Número (paga 35 a 1):</label>
-            <input type="number" id="numberBet-${player}" min="0" max="36" placeholder="Número" class="input-half">
+            <select id="numberBet-${player}" class="input-half">
+                ${Array.from({ length: 37 }, (_, i) => `<option value="${i}">${i}</option>`).join('')}
+            </select>
             <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto" class="input-half">
             <br>
             <label for="rangeBet-${player}">Baja/Alta (paga 1 a 1):</label>
