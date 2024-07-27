@@ -123,7 +123,9 @@ function spinRoulette() {
     const rouletteNumberText = document.getElementById('rouletteNumberText');
     const rouletteSound = document.getElementById('rouletteSound');
     
-    rouletteSound.play();
+    if (rouletteSound) {
+        rouletteSound.play().catch(e => console.log("Error playing sound:", e));
+    }
 
     const spinAnimation = rouletteWheel.animate([
         { transform: 'rotate(0deg)' },
@@ -143,8 +145,10 @@ function spinRoulette() {
     spinAnimation.onfinish = () => {
         clearInterval(spinInterval);
         rouletteWheel.style.transform = 'rotate(1800deg)';
-        rouletteSound.pause();
-        rouletteSound.currentTime = 0;
+        if (rouletteSound) {
+            rouletteSound.pause();
+            rouletteSound.currentTime = 0;
+        }
         rouletteNumberText.textContent = numberResult;
         rouletteNumberText.style.color = colorResult;
         document.getElementById('numberResult').value = numberResult;
