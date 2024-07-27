@@ -40,10 +40,15 @@
             <button onclick="spinRoulette()" class="btn">Girar Ruleta</button>
         </div>
         <div>
-            <label for="numberResult">Resultado Número:</label>
-            <input type="number" id="numberResult" class="input-half" readonly>
-            <label for="colorResult">Resultado Color:</label>
-            <input type="text" id="colorResult" class="input-half" readonly>
+<label for="numberResult">Resultado Número:</label>
+<input type="number" id="numberResult" class="input-half" min="0" max="36">
+
+<label for="colorResult">Resultado Color:</label>
+<select id="colorResult" class="input-half">
+    <option value="green">Verde</option>
+    <option value="red">Rojo</option>
+    <option value="black">Negro</option>
+</select>
         </div>
         <button onclick="recordRound()" class="btn">Registrar Ronda</button>
     </div>
