@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #1a1a2e;
-    color: #ffffff;
+    background-color: #f0f0f0;
+    color: #333;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -15,36 +15,36 @@ body {
     margin: 20px auto;
     padding: 30px;
     max-width: 800px;
-    background: #16213e;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
 }
 
 h1, h2 {
-    color: #e94560;
+    color: #2c3e50;
     margin-bottom: 20px;
 }
 
 label {
     display: block;
     margin: 15px 0 5px;
-    color: #0f3460;
+    color: #34495e;
 }
 
 .input, .input-half, select {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #0f3460;
+    border: 1px solid #bdc3c7;
     border-radius: 5px;
-    background-color: #1a1a2e;
-    color: #ffffff;
+    background-color: #ecf0f1;
+    color: #2c3e50;
     transition: all 0.3s ease;
 }
 
 .input:focus, .input-half:focus, select:focus {
     outline: none;
-    box-shadow: 0 0 5px #e94560;
+    box-shadow: 0 0 5px #3498db;
 }
 
 .input-half {
@@ -53,7 +53,7 @@ label {
 }
 
 .btn {
-    background-color: #e94560;
+    background-color: #3498db;
     color: #ffffff;
     border: none;
     padding: 12px 24px;
@@ -65,41 +65,41 @@ label {
 }
 
 .btn:hover {
-    background-color: #0f3460;
+    background-color: #2980b9;
     transform: translateY(-2px);
 }
 
 .bet-section {
     margin-bottom: 30px;
-    background-color: #0f3460;
+    background-color: #ecf0f1;
     padding: 20px;
     border-radius: 10px;
 }
 
 .bet-section h3 {
     margin-bottom: 15px;
-    color: #e94560;
+    color: #2c3e50;
 }
 
 #players div {
     margin: 15px 0;
     padding: 15px;
-    background-color: #0f3460;
+    background-color: #ecf0f1;
     border-radius: 10px;
-    border: 1px solid #e94560;
+    border: 1px solid #bdc3c7;
     transition: all 0.3s ease;
 }
 
 #players div:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.2);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
 }
 
 #houseBalance {
     font-weight: bold;
     font-size: 24px;
     margin-top: 30px;
-    color: #e94560;
+    color: #2c3e50;
 }
 
 #roulette {
@@ -110,12 +110,12 @@ label {
 #rouletteWheel {
     width: 300px;
     height: 300px;
-    border: 15px solid #e94560;
+    border: 15px solid #2c3e50;
     border-radius: 50%;
     margin: 30px auto;
-    background: conic-gradient(#e94560, #0f3460, #e94560, #0f3460, #e94560, #0f3460, #e94560, #0f3460);
+    background: conic-gradient(#e74c3c, #2c3e50, #e74c3c, #2c3e50, #e74c3c, #2c3e50, #e74c3c, #2c3e50);
     position: relative;
-    box-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+    box-shadow: 0 0 30px rgba(44, 62, 80, 0.5);
 }
 
 .rouletteNumberWrapper {
@@ -130,13 +130,13 @@ label {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(15, 52, 96, 0.5);
+    box-shadow: 0 0 10px rgba(44, 62, 80, 0.5);
 }
 
 #rouletteNumberText {
     font-size: 36px;
     font-weight: bold;
-    color: #1a1a2e;
+    color: #2c3e50;
 }
 
 #rouletteWheel.spin {
