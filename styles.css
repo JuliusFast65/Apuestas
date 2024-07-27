@@ -1,121 +1,100 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     color: #333;
     text-align: center;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .container {
-    margin: 20px auto;
-    padding: 30px;
-    max-width: 800px;
-    background: #ffffff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 600px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 50px;
 }
 
 h1, h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
+    color: #444;
 }
 
 label {
     display: block;
     margin: 15px 0 5px;
-    color: #34495e;
 }
 
-.input, .input-half, select {
+.input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #bdc3c7;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #ecf0f1;
-    color: #2c3e50;
-    transition: all 0.3s ease;
-}
-
-.input:focus, .input-half:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 5px #3498db;
 }
 
 .input-half {
-    width: calc(50% - 10px);
+    width: 45%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     display: inline-block;
+    text-align: right;
 }
 
 .btn {
-    background-color: #3498db;
-    color: #ffffff;
+    background-color: #007BFF;
+    color: #fff;
     border: none;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px;
-    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 .btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+    background-color: #0056b3;
 }
 
 .bet-section {
-    margin-bottom: 30px;
-    background-color: #ecf0f1;
-    padding: 20px;
-    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 .bet-section h3 {
-    margin-bottom: 15px;
-    color: #2c3e50;
+    margin-bottom: 10px;
+    color: #007BFF;
 }
 
 #players div {
-    margin: 15px 0;
-    padding: 15px;
-    background-color: #ecf0f1;
-    border-radius: 10px;
-    border: 1px solid #bdc3c7;
-    transition: all 0.3s ease;
-}
-
-#players div:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
 #houseBalance {
     font-weight: bold;
-    font-size: 24px;
-    margin-top: 30px;
-    color: #2c3e50;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
 #roulette {
-    margin: 40px 0;
+    margin: 20px 0;
     position: relative;
 }
 
 #rouletteWheel {
-    width: 300px;
-    height: 300px;
-    border: 15px solid #2c3e50;
+    width: 200px;
+    height: 200px;
+    border: 10px solid #ddd;
     border-radius: 50%;
-    margin: 30px auto;
-    background: conic-gradient(#e74c3c, #2c3e50, #e74c3c, #2c3e50, #e74c3c, #2c3e50, #e74c3c, #2c3e50);
+    margin: 20px auto;
+    background: conic-gradient(red, black, red, black, red, black, red, black);
     position: relative;
-    box-shadow: 0 0 30px rgba(44, 62, 80, 0.5);
 }
 
 .rouletteNumberWrapper {
@@ -123,24 +102,22 @@ label {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #ffffff;
+    background: white;
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(44, 62, 80, 0.5);
 }
 
 #rouletteNumberText {
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
-    color: #2c3e50;
 }
 
 #rouletteWheel.spin {
-    animation: spin 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    animation: spin 5s cubic-bezier(0.47, 0, 0.745, 0.715);
 }
 
 @keyframes spin {
@@ -148,31 +125,6 @@ label {
         transform: rotate(0deg);
     }
     100% {
-        transform: rotate(1800deg);
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-        margin: 10px;
-    }
-
-    .input-half {
-        width: 100%;
-    }
-
-    #rouletteWheel {
-        width: 200px;
-        height: 200px;
-    }
-
-    .rouletteNumberWrapper {
-        width: 60px;
-        height: 60px;
-    }
-
-    #rouletteNumberText {
-        font-size: 24px;
+        transform: rotate(1800deg); /* 5 full spins */
     }
 }
