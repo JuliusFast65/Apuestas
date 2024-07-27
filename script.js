@@ -2,6 +2,7 @@ let players = [];
 let playerBalances = {};
 let playerPreviousBalances = {};
 let houseBalance = 0;
+let playerLevels = {};
 
 const rouletteColors = [
     "green", // 0
@@ -43,13 +44,14 @@ function startGame() {
             players.push(playerName);
             playerBalances[playerName] = parseFloat(initialBalance);
             playerPreviousBalances[playerName] = parseFloat(initialBalance);
+            playerLevels[playerName] = { level: 1, experience: 0 };
         }
     }
 
     players.forEach(player => {
         const div = document.createElement('div');
         div.id = `player-${player}`;
-        div.innerText = `${player}: ${playerBalances[player]}`;
+        div.innerHTML = `${player}: ${playerBalances[player]} <br> Nivel: ${playerLevels[player].level}`;
         playersDiv.appendChild(div);
 
         const betSection = document.createElement('div');
@@ -118,11 +120,18 @@ function spinRoulette() {
     const colorResult = rouletteColors[numberResult];
 
     const rouletteWheel = document.getElementById('rouletteWheel');
-    rouletteWheel.classList.add('spin');
-
     const rouletteNumberText = document.getElementById('rouletteNumberText');
     const rouletteSound = document.getElementById('rouletteSound');
+    
     rouletteSound.play();
+
+    const spinAnimation = rouletteWheel.animate([
+        { transform: 'rotate(0deg)' },
+        { transform: 'rotate(1800deg)' }
+    ], {
+        duration: 5000,
+        easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
+    });
 
     const spinInterval = setInterval(() => {
         const currentNumber = Math.floor(Math.random() * 37);
@@ -131,16 +140,17 @@ function spinRoulette() {
         rouletteNumberText.style.color = currentColor;
     }, 100);
 
-    setTimeout(() => {
+    spinAnimation.onfinish = () => {
         clearInterval(spinInterval);
-        rouletteWheel.classList.remove('spin');
+        rouletteWheel.style.transform = 'rotate(1800deg)';
         rouletteSound.pause();
         rouletteSound.currentTime = 0;
         rouletteNumberText.textContent = numberResult;
         rouletteNumberText.style.color = colorResult;
         document.getElementById('numberResult').value = numberResult;
         document.getElementById('colorResult').value = colorResult;
-    }, 5000);
+        updateHistory(numberResult, colorResult);
+    };
 }
 
 function recordRound() {
@@ -178,31 +188,31 @@ function recordRound() {
         let totalLosses = 0;
 
         if (quadrantBet === quadrantResult) {
-            totalWinnings += quadrantAmount * 2; // Se gana 2 a 1 en Cuadrante
+            totalWinnings += quadrantAmount * 2;
         } else {
             totalLosses += quadrantAmount;
         }
 
         if (parityBet === parityResult) {
-            totalWinnings += parityAmount; // Se gana 1 a 1 en Paridad
+            totalWinnings += parityAmount;
         } else {
             totalLosses += parityAmount;
         }
 
         if (colorBet === colorResult) {
-            totalWinnings += colorAmount; // Se gana 1 a 1 en Color
+            totalWinnings += colorAmount;
         } else {
             totalLosses += colorAmount;
         }
 
         if (numberBet === numberResult) {
-            totalWinnings += numberAmount * 35; // Se gana 35 a 1 en Número
+            totalWinnings += numberAmount * 35;
         } else {
             totalLosses += numberAmount;
         }
 
         if (rangeBet === rangeResult) {
-            totalWinnings += rangeAmount; // Se gana 1 a 1 en Baja/Alta
+            totalWinnings += rangeAmount;
         } else {
             totalLosses += rangeAmount;
         }
@@ -213,7 +223,9 @@ function recordRound() {
         houseBalance -= totalWinnings;
         houseBalance += totalLosses;
 
-        document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
+        updatePlayerLevel(player);
+
+        document.getElementById(`player-${player}`).innerHTML = `${player}: ${playerBalances[player]} <br> Nivel: ${playerLevels[player].level}`;
     });
 
     document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
@@ -256,10 +268,30 @@ function showBalances() {
         betDetails += `</ul>
             <p>Total Apostado: ${totalBets}</p>
             <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
-            <p>Nuevo Saldo: ${currentBalance}</p>`;
+            <p>Nuevo Saldo: ${currentBalance}</p>
+            <p>Nivel: ${playerLevels[player].level}</p>`;
 
         balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
     goToBalances();
+}
+
+function updateHistory(number, color) {
+    const historyList = document.getElementById('resultHistory');
+    const listItem = document.createElement('li');
+    listItem.textContent = `${number} - ${color}`;
+    listItem.style.color = color;
+    historyList.prepend(listItem);
+    if (historyList.children.length > 10) {
+        historyList.removeChild(historyList.lastChild);
+    }
+}
+
+function updatePlayerLevel(player) {
+    playerLevels[player].experience += 10;
+    if (playerLevels[player].experience >= playerLevels[player].level * 100) {
+        playerLevels[player].level++;
+        alert(`¡${player} ha subido al nivel ${playerLevels[player].level}!`);
+    }
 }
