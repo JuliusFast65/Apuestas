@@ -1,165 +1,21 @@
-let players = [];
-let playerBalances = {};
-let playerPreviousBalances = {};
-let houseBalance = 0;
-let playerLevels = {};
-
-const rouletteColors = [
-    "green", // 0
-    "red", "black", "red", "black", "red", "black", "red", "black", "red", "black",
-    "black", "red", "black", "red", "black", "red", "black", "red", "black", "red",
-    "red", "black", "red", "black", "red", "black", "red", "black", "red", "black",
-    "black", "red", "black", "red", "black", "red"
-];
-
-function setupGame() {
-    const numPlayers = document.getElementById('numPlayers').value;
-    const playerInputs = document.getElementById('playerInputs');
-    playerInputs.innerHTML = '';
-    for (let i = 0; i < numPlayers; i++) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = `Jugador ${i + 1}`;
-        input.id = `player${i}`;
-        input.className = 'input';
-        playerInputs.appendChild(input);
-    }
-    document.getElementById('setup').style.display = 'none';
-    document.getElementById('playerSetup').style.display = 'block';
-}
-
-function startGame() {
-    const numPlayers = document.getElementById('numPlayers').value;
-    const initialBalance = document.getElementById('initialBalance').value;
-    const playersDiv = document.getElementById('players');
-    const betInputsDiv = document.getElementById('betInputs');
-
-    playersDiv.innerHTML = '';
-    betInputsDiv.innerHTML = '';
-    players = [];
-
-    for (let i = 0; i < numPlayers; i++) {
-        const playerName = document.getElementById(`player${i}`).value;
-        if (playerName) {
-            players.push(playerName);
-            playerBalances[playerName] = parseFloat(initialBalance);
-            playerPreviousBalances[playerName] = parseFloat(initialBalance);
-            playerLevels[playerName] = { level: 1, experience: 0 };
-        }
-    }
-
-    players.forEach(player => {
-        const div = document.createElement('div');
-        div.id = `player-${player}`;
-        div.innerHTML = `${player}: ${playerBalances[player]} <br> Nivel: ${playerLevels[player].level}`;
-        playersDiv.appendChild(div);
-
-        const betSection = document.createElement('div');
-        betSection.className = 'bet-section';
-        betSection.innerHTML = `
-            <h3>Apuestas de ${player}</h3>
-            <label for="quadrantBet-${player}">Cuadrante (paga 2 a 1):</label>
-            <select id="quadrantBet-${player}" class="input-half">
-                <option value="cuadrante1">1-12</option>
-                <option value="cuadrante2">13-24</option>
-                <option value="cuadrante3">25-36</option>
-            </select>
-            <input type="number" id="quadrantAmount-${player}" min="1" placeholder="Monto" class="input-half">
-            <br>
-            <label for="parityBet-${player}">Paridad (paga 1 a 1):</label>
-            <select id="parityBet-${player}" class="input-half">
-                <option value="par">Par</option>
-                <option value="impar">Impar</option>
-            </select>
-            <input type="number" id="parityAmount-${player}" min="1" placeholder="Monto" class="input-half">
-            <br>
-            <label for="colorBet-${player}">Color (paga 1 a 1):</label>
-            <select id="colorBet-${player}" class="input-half">
-                <option value="rojo">Rojo</option>
-                <option value="negro">Negro</option>
-            </select>
-            <input type="number" id="colorAmount-${player}" min="1" placeholder="Monto" class="input-half">
-            <br>
-            <label for="numberBet-${player}">Número (paga 35 a 1):</label>
-            <select id="numberBet-${player}" class="input-half">
-                ${Array.from({ length: 37 }, (_, i) => `<option value="${i}">${i}</option>`).join('')}
-            </select>
-            <input type="number" id="numberAmount-${player}" min="1" placeholder="Monto" class="input-half">
-            <br>
-            <label for="rangeBet-${player}">Baja/Alta (paga 1 a 1):</label>
-            <select id="rangeBet-${player}" class="input-half">
-                <option value="baja">1-18</option>
-                <option value="alta">19-36</option>
-            </select>
-            <input type="number" id="rangeAmount-${player}" min="1" placeholder="Monto" class="input-half">
-        `;
-        betInputsDiv.appendChild(betSection);
-    });
-
-    document.getElementById('playerSetup').style.display = 'none';
-    document.getElementById('bets').style.display = 'block';
-}
-
 function goToResults() {
     document.getElementById('bets').style.display = 'none';
-    document.getElementById('results').style.display = 'block';
-}
-
-function goToBalances() {
-    document.getElementById('results').style.display = 'none';
-    document.getElementById('balances').style.display = 'block';
-}
-
-function goToBets() {
     document.getElementById('balances').style.display = 'none';
-    document.getElementById('bets').style.display = 'block';
-}
-
-function spinRoulette() {
-    const numberResult = Math.floor(Math.random() * 37);
-    const colorResult = rouletteColors[numberResult];
-
-    const rouletteWheel = document.getElementById('rouletteWheel');
-    const rouletteNumberText = document.getElementById('rouletteNumberText');
-    const rouletteSound = document.getElementById('rouletteSound');
+    document.getElementById('results').style.display = 'block';
     
-    if (rouletteSound) {
-        rouletteSound.play().catch(e => console.log("Error playing sound:", e));
-    }
-
-    const spinAnimation = rouletteWheel.animate([
-        { transform: 'rotate(0deg)' },
-        { transform: 'rotate(1800deg)' }
-    ], {
-        duration: 5000,
-        easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
-    });
-
-    const spinInterval = setInterval(() => {
-        const currentNumber = Math.floor(Math.random() * 37);
-        const currentColor = rouletteColors[currentNumber];
-        rouletteNumberText.textContent = currentNumber;
-        rouletteNumberText.style.color = currentColor;
-    }, 100);
-
-    spinAnimation.onfinish = () => {
-        clearInterval(spinInterval);
-        rouletteWheel.style.transform = 'rotate(1800deg)';
-        if (rouletteSound) {
-            rouletteSound.pause();
-            rouletteSound.currentTime = 0;
-        }
-        rouletteNumberText.textContent = numberResult;
-        rouletteNumberText.style.color = colorResult;
-        document.getElementById('numberResult').value = numberResult;
-        document.getElementById('colorResult').value = colorResult;
-        updateHistory(numberResult, colorResult);
-    };
+    // Limpiar los campos de resultado
+    document.getElementById('numberResult').value = '';
+    document.getElementById('colorResult').value = 'green';
 }
 
 function recordRound() {
     const numberResult = parseInt(document.getElementById('numberResult').value);
     const colorResult = document.getElementById('colorResult').value;
+
+    if (isNaN(numberResult) || numberResult < 0 || numberResult > 36) {
+        alert("Por favor, ingrese un número válido entre 0 y 36.");
+        return;
+    }
 
     let quadrantResult = '';
     if (numberResult >= 1 && numberResult <= 12) {
@@ -228,11 +84,9 @@ function recordRound() {
         houseBalance += totalLosses;
 
         updatePlayerLevel(player);
-
-        document.getElementById(`player-${player}`).innerHTML = `${player}: ${playerBalances[player]} <br> Nivel: ${playerLevels[player].level}`;
     });
 
-    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
+    updateHistory(numberResult, colorResult);
     showBalances();
 }
 
@@ -242,7 +96,7 @@ function showBalances() {
     const winningNumberDiv = document.getElementById('winningNumber');
     const numberResult = parseInt(document.getElementById('numberResult').value);
     const colorResult = document.getElementById('colorResult').value;
-    winningNumberDiv.textContent = numberResult;
+    winningNumberDiv.textContent = `${numberResult} - ${colorResult}`;
     winningNumberDiv.style.color = colorResult;
 
     players.forEach(player => {
@@ -271,31 +125,16 @@ function showBalances() {
 
         betDetails += `</ul>
             <p>Total Apostado: ${totalBets}</p>
-            <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
+            <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${Math.abs(netResult)}</p>
             <p>Nuevo Saldo: ${currentBalance}</p>
             <p>Nivel: ${playerLevels[player].level}</p>`;
 
         balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
-    goToBalances();
-}
 
-function updateHistory(number, color) {
-    const historyList = document.getElementById('resultHistory');
-    const listItem = document.createElement('li');
-    listItem.textContent = `${number} - ${color}`;
-    listItem.style.color = color;
-    historyList.prepend(listItem);
-    if (historyList.children.length > 10) {
-        historyList.removeChild(historyList.lastChild);
-    }
-}
-
-function updatePlayerLevel(player) {
-    playerLevels[player].experience += 10;
-    if (playerLevels[player].experience >= playerLevels[player].level * 100) {
-        playerLevels[player].level++;
-        alert(`¡${player} ha subido al nivel ${playerLevels[player].level}!`);
-    }
+    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
+    
+    document.getElementById('balances').style.display = 'block';
+    document.getElementById('results').style.display = 'none';
 }
