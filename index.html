@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Ruleta</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Juego de Apuestas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,35 +38,24 @@
             </div>
             <button onclick="spinRoulette()" class="btn">Girar Ruleta</button>
         </div>
-        <div>
-<label for="numberResult">Resultado Número:</label>
-<input type="number" id="numberResult" class="input-half" min="0" max="36">
-
-<label for="colorResult">Resultado Color:</label>
-<select id="colorResult" class="input-half">
-    <option value="green">Verde</option>
-    <option value="red">Rojo</option>
-    <option value="black">Negro</option>
-</select>
-        </div>
+        <label for="numberResult">Resultado Número:</label>
+        <input type="number" id="numberResult" min="0" max="36" class="input">
+        <label for="colorResult">Resultado Color:</label>
+        <input type="text" id="colorResult" class="input">
         <button onclick="recordRound()" class="btn">Registrar Ronda</button>
     </div>
 
     <div id="balances" class="container" style="display:none;">
         <h1>Saldos de los Jugadores</h1>
-        <div id="winningNumber"></div>
+        <div id="winningNumber" style="font-size: 24px; font-weight: bold; margin: 20px 0;"></div>
         <div id="players"></div>
         <h2>Saldo de la Casa</h2>
         <div id="houseBalance">0</div>
         <button onclick="goToBets()" class="btn">Ir a Apuestas</button>
     </div>
 
-    <div id="history" class="container" style="display:none;">
-        <h2>Historial de Resultados</h2>
-        <ul id="resultHistory"></ul>
-    </div>
+    <audio id="rouletteSound" src="roulette-sound.mp3" preload="auto"></audio>
 
-    <audio id="rouletteSound" src="roulette_sound.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>
