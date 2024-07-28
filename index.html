@@ -3,62 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Apuestas</title>
+    <title>Apuestas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="setup" class="container">
+    <div id="setup">
         <h1>Configuración del Juego</h1>
-        <label for="numPlayers">Cantidad de jugadores:</label>
-        <input type="number" id="numPlayers" min="1" class="input">
-        <button onclick="setupGame()" class="btn">Siguiente</button>
+        <label for="numPlayers">Número de Jugadores:</label>
+        <input type="number" id="numPlayers" min="1" placeholder="Número de Jugadores">
+        <br>
+        <button onclick="setupGame()">Configurar Jugadores</button>
     </div>
 
-    <div id="playerSetup" class="container" style="display:none;">
-        <h1>Ingrese los nombres de los jugadores y el saldo inicial</h1>
+    <div id="playerSetup" style="display: none;">
+        <h1>Jugadores</h1>
         <div id="playerInputs"></div>
-        <label for="initialBalance">Saldo inicial:</label>
-        <input type="number" id="initialBalance" min="1" class="input">
-        <button onclick="startGame()" class="btn">Comenzar Juego</button>
+        <br>
+        <button onclick="startGame()">Iniciar Juego</button>
     </div>
 
-    <div id="bets" class="container" style="display:none;">
+    <div id="bets" style="display: none;">
         <h1>Registrar Apuestas</h1>
         <div id="betInputs"></div>
-        <button onclick="goToResults()" class="btn">Registrar Resultados</button>
+        <br>
+        <button onclick="goToResults()">Registrar Apuestas</button>
     </div>
 
-    <div id="results" class="container" style="display:none;">
+    <div id="results" style="display: none;">
         <h1>Resultados de la Ronda</h1>
-        <div id="roulette">
-            <div id="rouletteWheel">
-                <div id="rouletteNumber" class="rouletteNumberWrapper">
-                    <span id="rouletteNumberText"></span>
-                </div>
-            </div>
-            <button onclick="spinRoulette()" class="btn">Girar Ruleta</button>
-        </div>
-        <label for="numberResult">Resultado Número:</label>
-        <input type="number" id="numberResult" min="0" max="36" class="input">
-        <label for="colorResult">Resultado Color:</label>
-        <select id="colorResult" class="input">
-            <option value="rojo">Rojo</option>
-            <option value="negro">Negro</option>
-            <option value="verde">Verde</option>
-        </select>
-        <button onclick="recordRound()" class="btn">Registrar Ronda</button>
+        <div id="rouletteWheel" class="roulette-wheel"></div>
+        <div id="rouletteNumberText" class="roulette-number-text"></div>
+        <br>
+        <button onclick="spinRoulette()">Girar Ruleta</button>
+        <br>
+        <label for="numberResult">Número Resultante:</label>
+        <input type="number" id="numberResult" readonly>
+        <br>
+        <label for="colorResult">Color Resultante:</label>
+        <input type="text" id="colorResult" readonly>
+        <br>
+        <button onclick="recordRound()">Registrar Ronda</button>
+        <audio id="rouletteSound" src="roulette-sound.mp3"></audio>
     </div>
 
-    <div id="balances" class="container" style="display:none;">
+    <div id="balances" style="display: none;">
         <h1>Saldos de los Jugadores</h1>
-        <div id="winningNumber" style="font-size: 24px; font-weight: bold; margin: 20px 0;"></div>
+        <div id="winningNumber" class="winning-number"></div>
         <div id="players"></div>
-        <h2>Saldo de la Casa</h2>
-        <div id="houseBalance">0</div>
-        <button onclick="goToBets()" class="btn">Ir a Apuestas</button>
+        <br>
+        <button onclick="goToBets()">Registrar Nuevas Apuestas</button>
     </div>
-
-    <audio id="rouletteSound" src="roullette.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
