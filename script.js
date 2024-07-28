@@ -278,11 +278,21 @@ function showBalances() {
             <p>Apuestas:</p>
             <ul>`;
         
-        if (quadrantAmount > 0) betDetails += `<li>Cuadrante: ${quadrantBet} - ${quadrantAmount}</li>`;
-        if (parityAmount > 0) betDetails += `<li>Paridad: ${parityBet} - ${parityAmount}</li>`;
-        if (colorAmount > 0) betDetails += `<li>Color: ${colorBet} - ${colorAmount}</li>`;
-        if (numberAmount > 0) betDetails += `<li>Número: ${numberBet} - ${numberAmount}</li>`;
-        if (rangeAmount > 0) betDetails += `<li>Baja/Alta: ${rangeBet} - ${rangeAmount}</li>`;
+        if (quadrantAmount > 0) {
+            betDetails += `<li>Cuadrante: ${quadrantBet} ${quadrantAmount} <span style="text-decoration: ${quadrantBet === quadrantResult ? 'underline' : 'none'}; font-style: ${quadrantBet !== quadrantResult ? 'italic' : 'normal'}">${quadrantBet === quadrantResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+        }
+        if (parityAmount > 0) {
+            betDetails += `<li>Paridad: ${parityBet} ${parityAmount} <span style="text-decoration: ${parityBet === parityResult ? 'underline' : 'none'}; font-style: ${parityBet !== parityResult ? 'italic' : 'normal'}">${parityBet === parityResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+        }
+        if (colorAmount > 0) {
+            betDetails += `<li>Color: ${colorBet} ${colorAmount} <span style="text-decoration: ${colorBet === colorResult ? 'underline' : 'none'}; font-style: ${colorBet !== colorResult ? 'italic' : 'normal'}">${colorBet === colorResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+        }
+        if (numberAmount > 0) {
+            betDetails += `<li>Número: ${numberBet} ${numberAmount} <span style="text-decoration: ${numberBet === numberResult ? 'underline' : 'none'}; font-style: ${numberBet !== numberResult ? 'italic' : 'normal'}">${numberBet === numberResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+        }
+        if (rangeAmount > 0) {
+            betDetails += `<li>Baja/Alta: ${rangeBet} ${rangeAmount} <span style="text-decoration: ${rangeBet === rangeResult ? 'underline' : 'none'}; font-style: ${rangeBet !== rangeResult ? 'italic' : 'normal'}">${rangeBet === rangeResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+        }
 
         betDetails += `</ul>
             <p>Total Apostado: ${totalBets}</p>
