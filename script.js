@@ -12,6 +12,7 @@ const rouletteColors = [
 ];
 
 function setupGame() {
+    console.log("Setup Game");
     const numPlayers = document.getElementById('numPlayers').value;
     const playerInputs = document.getElementById('playerInputs');
     playerInputs.innerHTML = '';
@@ -28,6 +29,7 @@ function setupGame() {
 }
 
 function startGame() {
+    console.log("Start Game");
     const numPlayers = document.getElementById('numPlayers').value;
     const initialBalance = document.getElementById('initialBalance').value;
     const playersDiv = document.getElementById('players');
@@ -99,21 +101,25 @@ function startGame() {
 }
 
 function goToResults() {
+    console.log("Go to Results");
     document.getElementById('bets').style.display = 'none';
     document.getElementById('results').style.display = 'block';
 }
 
 function goToBalances() {
+    console.log("Go to Balances");
     document.getElementById('results').style.display = 'none';
     document.getElementById('balances').style.display = 'block';
 }
 
 function goToBets() {
+    console.log("Go to Bets");
     document.getElementById('balances').style.display = 'none';
     document.getElementById('bets').style.display = 'block';
 }
 
 function spinRoulette() {
+    console.log("Spin Roulette");
     const numberResult = Math.floor(Math.random() * 37);
     const colorResult = rouletteColors[numberResult];
 
@@ -140,10 +146,12 @@ function spinRoulette() {
         rouletteNumberText.style.color = colorResult === "verde" ? "green" : colorResult === "rojo" ? "red" : "black";
         document.getElementById('numberResult').value = numberResult;
         document.getElementById('colorResult').value = colorResult;
+        console.log("Spin Completed: ", numberResult, colorResult);
     }, 5000);
 }
 
 function recordRound() {
+    console.log("Record Round");
     const numberResult = parseInt(document.getElementById('numberResult').value);
     const colorResult = document.getElementById('colorResult').value;
 
@@ -160,6 +168,7 @@ function recordRound() {
     const rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
 
     players.forEach(player => {
+        console.log("Processing player: ", player);
         playerPreviousBalances[player] = playerBalances[player];
 
         const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
@@ -213,6 +222,7 @@ function recordRound() {
         houseBalance -= totalWinnings;
         houseBalance += totalLosses;
 
+        console.log(`${player}: Balance - ${playerBalances[player]}`);
         document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
     });
 
@@ -221,6 +231,7 @@ function recordRound() {
 }
 
 function showBalances() {
+    console.log("Show Balances");
     const playersDiv = document.getElementById('players');
     playersDiv.innerHTML = '';
     const winningNumberDiv = document.getElementById('winningNumber');
