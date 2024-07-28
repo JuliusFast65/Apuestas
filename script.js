@@ -218,6 +218,7 @@ function recordRound() {
 
     document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
     showBalances();
+    goToBalances(); // Mover a la página de saldos de los jugadores después de registrar la ronda
 }
 
 function showBalances() {
@@ -267,5 +268,4 @@ function showBalances() {
         balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
-    goToBalances();
 }
