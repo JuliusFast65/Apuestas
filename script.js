@@ -3,6 +3,10 @@ let playerBalances = {};
 let playerPreviousBalances = {};
 let houseBalance = 0;
 
+let quadrantResult = '';
+let parityResult = '';
+let rangeResult = '';
+
 const rouletteColors = [
     "verde", // 0
     "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
@@ -155,7 +159,7 @@ function recordRound() {
     const numberResult = parseInt(document.getElementById('numberResult').value);
     const colorResult = document.getElementById('colorResult').value;
 
-    let quadrantResult = '';
+    quadrantResult = '';
     if (numberResult >= 1 && numberResult <= 12) {
         quadrantResult = 'cuadrante1';
     } else if (numberResult >= 13 && numberResult <= 24) {
@@ -164,8 +168,8 @@ function recordRound() {
         quadrantResult = 'cuadrante3';
     }
 
-    const parityResult = (numberResult !== 0) ? (numberResult % 2 === 0 ? 'par' : 'impar') : null;
-    const rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
+    parityResult = (numberResult !== 0) ? (numberResult % 2 === 0 ? 'par' : 'impar') : null;
+    rangeResult = numberResult >= 1 && numberResult <= 18 ? 'baja' : 'alta';
 
     players.forEach(player => {
         console.log("Processing player: ", player);
@@ -302,5 +306,8 @@ function showBalances() {
         balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
+    goToBalances(); // Mover aquí para asegurar la navegación
+}
+
     goToBalances(); // Mover aquí para asegurar la navegación
 }
