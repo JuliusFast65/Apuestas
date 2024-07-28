@@ -247,11 +247,11 @@ function showBalances() {
             <p>Apuestas:</p>
             <ul>`;
         
-        if (quadrantAmount > 0) betDetails += `<li>Cuadrante: ${quadrantAmount}</li>`;
-        if (parityAmount > 0) betDetails += `<li>Paridad: ${parityAmount}</li>`;
-        if (colorAmount > 0) betDetails += `<li>Color: ${colorAmount}</li>`;
-        if (numberAmount > 0) betDetails += `<li>Número: ${numberAmount}</li>`;
-        if (rangeAmount > 0) betDetails += `<li>Baja/Alta: ${rangeAmount}</li>`;
+        if (quadrantAmount > 0) betDetails += `<li>Cuadrante: ${quadrantBet} - ${quadrantAmount}</li>`;
+        if (parityAmount > 0) betDetails += `<li>Paridad: ${parityBet} - ${parityAmount}</li>`;
+        if (colorAmount > 0) betDetails += `<li>Color: ${colorBet} - ${colorAmount}</li>`;
+        if (numberAmount > 0) betDetails += `<li>Número: ${numberBet} - ${numberAmount}</li>`;
+        if (rangeAmount > 0) betDetails += `<li>Baja/Alta: ${rangeBet} - ${rangeAmount}</li>`;
 
         betDetails += `</ul>
             <p>Total Apostado: ${totalBets}</p>
