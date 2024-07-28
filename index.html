@@ -41,7 +41,11 @@
         <label for="numberResult">Resultado Número:</label>
         <input type="number" id="numberResult" min="0" max="36" class="input">
         <label for="colorResult">Resultado Color:</label>
-        <input type="text" id="colorResult" class="input">
+        <select id="colorResult" class="input">
+            <option value="rojo">Rojo</option>
+            <option value="negro">Negro</option>
+            <option value="verde">Verde</option>
+        </select>
         <button onclick="recordRound()" class="btn">Registrar Ronda</button>
     </div>
 
