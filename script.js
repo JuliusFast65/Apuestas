@@ -233,6 +233,12 @@ function showBalances() {
         const balanceDiv = document.createElement('div');
         const previousBalance = playerPreviousBalances[player];
         const currentBalance = playerBalances[player];
+        const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
+        const parityBet = document.getElementById(`parityBet-${player}`).value;
+        const colorBet = document.getElementById(`colorBet-${player}`).value;
+        const numberBet = document.getElementById(`numberBet-${player}`).value;
+        const rangeBet = document.getElementById(`rangeBet-${player}`).value;
+
         const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
         const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
         const colorAmount = parseFloat(document.getElementById(`colorAmount-${player}`).value) || 0;
