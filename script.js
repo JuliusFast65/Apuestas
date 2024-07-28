@@ -1,3 +1,4 @@
+// Variables globales para almacenar información de los jugadores y la banca
 let players = [];
 let playerBalances = {};
 let playerPreviousBalances = {};
@@ -7,6 +8,7 @@ let quadrantResult = '';
 let parityResult = '';
 let rangeResult = '';
 
+// Colores de la ruleta
 const rouletteColors = [
     "verde", // 0
     "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
@@ -15,12 +17,14 @@ const rouletteColors = [
     "negro", "rojo", "negro", "rojo", "negro", "rojo"
 ];
 
+// Función para configurar el juego
 function setupGame() {
     console.log("Setup Game");
     const numPlayers = document.getElementById('numPlayers').value;
     const playerInputs = document.getElementById('playerInputs');
     playerInputs.innerHTML = '';
     for (let i = 0; i < numPlayers; i++) {
+        // Crear inputs para el nombre y saldo inicial de cada jugador
         const inputName = document.createElement('input');
         inputName.type = 'text';
         inputName.placeholder = `Jugador ${i + 1}`;
@@ -41,6 +45,7 @@ function setupGame() {
     document.getElementById('playerSetup').style.display = 'block';
 }
 
+// Función para iniciar el juego
 function startGame() {
     console.log("Start Game");
     const numPlayers = document.getElementById('numPlayers').value;
@@ -62,11 +67,13 @@ function startGame() {
     }
 
     players.forEach(player => {
+        // Mostrar saldo de cada jugador
         const div = document.createElement('div');
         div.id = `player-${player}`;
         div.innerText = `${player}: ${formatCurrency(playerBalances[player])}`;
         playersDiv.appendChild(div);
 
+        // Crear secciones de apuestas para cada jugador
         const betSection = document.createElement('div');
         betSection.className = 'bet-section';
         betSection.innerHTML = `
@@ -113,24 +120,28 @@ function startGame() {
     document.getElementById('bets').style.display = 'block';
 }
 
+// Función para ir a la página de resultados
 function goToResults() {
     console.log("Go to Results");
     document.getElementById('bets').style.display = 'none';
     document.getElementById('results').style.display = 'block';
 }
 
+// Función para ir a la página de saldos
 function goToBalances() {
     console.log("Go to Balances");
     document.getElementById('results').style.display = 'none';
     document.getElementById('balances').style.display = 'block';
 }
 
+// Función para volver a la página de apuestas
 function goToBets() {
     console.log("Go to Bets");
     document.getElementById('balances').style.display = 'none';
     document.getElementById('bets').style.display = 'block';
 }
 
+// Función para girar la ruleta
 function spinRoulette() {
     console.log("Spin Roulette");
     const numberResult = Math.floor(Math.random() * 37);
@@ -171,6 +182,7 @@ function spinRoulette() {
     }, 5000);
 }
 
+// Función para registrar los resultados de la ronda
 function recordRound() {
     console.log("Record Round");
     const numberResult = parseInt(document.getElementById('numberResult').value);
@@ -218,6 +230,7 @@ function recordRound() {
         let totalWinnings = 0;
         let totalLosses = 0;
 
+        // Calcular ganancias y pérdidas de cada jugador
         if (quadrantBet === quadrantResult) {
             totalWinnings += quadrantAmount * 2; // Se gana 2 a 1 en Cuadrante
         } else {
@@ -248,6 +261,7 @@ function recordRound() {
             totalLosses += rangeAmount;
         }
 
+        // Actualizar saldos
         playerBalances[player] += totalWinnings;
         playerBalances[player] -= totalLosses;
 
@@ -265,6 +279,7 @@ function recordRound() {
     showBalances();
 }
 
+// Función para mostrar los saldos de los jugadores
 function showBalances() {
     console.log("Show Balances");
     const playersDiv = document.getElementById('players');
@@ -293,6 +308,7 @@ function showBalances() {
         const totalBets = quadrantAmount + parityAmount + colorAmount + numberAmount + rangeAmount;
         const netResult = currentBalance - previousBalance;
 
+        // Mostrar detalles de las apuestas de cada jugador
         let betDetails = `
             <h3>${player}</h3>
             <p>Saldo Anterior: ${formatCurrency(previousBalance)}</p>
@@ -326,6 +342,7 @@ function showBalances() {
     goToBalances(); // Mover aquí para asegurar la navegación
 }
 
+// Función para formatear los montos de dinero
 function formatCurrency(amount) {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
