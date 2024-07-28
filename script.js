@@ -171,11 +171,22 @@ function recordRound() {
         console.log("Processing player: ", player);
         playerPreviousBalances[player] = playerBalances[player];
 
-        const quadrantBet = document.getElementById(`quadrantBet-${player}`).value;
-        const parityBet = document.getElementById(`parityBet-${player}`).value;
-        const colorBet = document.getElementById(`colorBet-${player}`).value;
-        const numberBet = parseInt(document.getElementById(`numberBet-${player}`).value);
-        const rangeBet = document.getElementById(`rangeBet-${player}`).value;
+        const quadrantBetElement = document.getElementById(`quadrantBet-${player}`);
+        const parityBetElement = document.getElementById(`parityBet-${player}`);
+        const colorBetElement = document.getElementById(`colorBet-${player}`);
+        const numberBetElement = document.getElementById(`numberBet-${player}`);
+        const rangeBetElement = document.getElementById(`rangeBet-${player}`);
+        
+        if (!quadrantBetElement || !parityBetElement || !colorBetElement || !numberBetElement || !rangeBetElement) {
+            console.log("Bet elements not found for player: ", player);
+            return;
+        }
+        
+        const quadrantBet = quadrantBetElement.value;
+        const parityBet = parityBetElement.value;
+        const colorBet = colorBetElement.value;
+        const numberBet = parseInt(numberBetElement.value);
+        const rangeBet = rangeBetElement.value;
 
         const quadrantAmount = parseFloat(document.getElementById(`quadrantAmount-${player}`).value) || 0;
         const parityAmount = parseFloat(document.getElementById(`parityAmount-${player}`).value) || 0;
@@ -222,8 +233,11 @@ function recordRound() {
         houseBalance -= totalWinnings;
         houseBalance += totalLosses;
 
+        const playerElement = document.getElementById(`player-${player}`);
+        if (playerElement) {
+            playerElement.innerText = `${player}: ${playerBalances[player]}`;
+        }
         console.log(`${player}: Balance - ${playerBalances[player]}`);
-        document.getElementById(`player-${player}`).innerText = `${player}: ${playerBalances[player]}`;
     });
 
     document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
