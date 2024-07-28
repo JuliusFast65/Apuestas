@@ -4,11 +4,11 @@ let playerPreviousBalances = {};
 let houseBalance = 0;
 
 const rouletteColors = [
-    "green", // 0
-    "red", "black", "red", "black", "red", "black", "red", "black", "red", "black",
-    "black", "red", "black", "red", "black", "red", "black", "red", "black", "red",
-    "red", "black", "red", "black", "red", "black", "red", "black", "red", "black",
-    "black", "red", "black", "red", "black", "red"
+    "verde", // 0
+    "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
+    "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",
+    "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
+    "negro", "rojo", "negro", "rojo", "negro", "rojo"
 ];
 
 function setupGame() {
@@ -128,7 +128,7 @@ function spinRoulette() {
         const currentNumber = Math.floor(Math.random() * 37);
         const currentColor = rouletteColors[currentNumber];
         rouletteNumberText.textContent = currentNumber;
-        rouletteNumberText.style.color = currentColor;
+        rouletteNumberText.style.color = currentColor === "verde" ? "green" : currentColor === "rojo" ? "red" : "black";
     }, 100);
 
     setTimeout(() => {
@@ -137,7 +137,7 @@ function spinRoulette() {
         rouletteSound.pause();
         rouletteSound.currentTime = 0;
         rouletteNumberText.textContent = numberResult;
-        rouletteNumberText.style.color = colorResult;
+        rouletteNumberText.style.color = colorResult === "verde" ? "green" : colorResult === "rojo" ? "red" : "black";
         document.getElementById('numberResult').value = numberResult;
         document.getElementById('colorResult').value = colorResult;
     }, 5000);
@@ -227,7 +227,7 @@ function showBalances() {
     const numberResult = parseInt(document.getElementById('numberResult').value);
     const colorResult = document.getElementById('colorResult').value;
     winningNumberDiv.textContent = numberResult;
-    winningNumberDiv.style.color = colorResult;
+    winningNumberDiv.style.color = colorResult === "verde" ? "green" : colorResult === "rojo" ? "red" : "black";
 
     players.forEach(player => {
         const balanceDiv = document.createElement('div');
