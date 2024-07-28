@@ -132,7 +132,7 @@ function spinRoulette() {
 
     const rouletteNumberText = document.getElementById('rouletteNumberText');
     const rouletteSound = document.getElementById('rouletteSound');
-    rouletteSound.play();
+    rouletteSound.play().catch(error => console.error("Error playing sound:", error));
 
     const spinInterval = setInterval(() => {
         const currentNumber = Math.floor(Math.random() * 37);
@@ -306,8 +306,5 @@ function showBalances() {
         balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
-    goToBalances(); // Mover aquí para asegurar la navegación
-}
-
     goToBalances(); // Mover aquí para asegurar la navegación
 }
