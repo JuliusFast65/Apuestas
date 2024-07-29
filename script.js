@@ -275,7 +275,12 @@ function recordRound() {
         console.log(`${player}: Balance - ${playerBalances[player]}`);
     });
 
-    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${formatCurrency(houseBalance)}`;
+    // Asegúrate de que el elemento houseBalance exista antes de intentar establecer su valor
+    const houseBalanceElement = document.getElementById('houseBalance');
+    if (houseBalanceElement) {
+        houseBalanceElement.innerText = `Saldo de la Casa: ${formatCurrency(houseBalance)}`;
+    }
+
     showBalances();
 }
 
