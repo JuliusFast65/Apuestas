@@ -21,12 +21,21 @@ function setupGame() {
     const playerInputs = document.getElementById('playerInputs');
     playerInputs.innerHTML = '';
     for (let i = 0; i < numPlayers; i++) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = `Jugador ${i + 1}`;
-        input.id = `player${i}`;
-        input.className = 'input';
-        playerInputs.appendChild(input);
+        const inputName = document.createElement('input');
+        inputName.type = 'text';
+        inputName.placeholder = `Jugador ${i + 1}`;
+        inputName.id = `player${i}`;
+        inputName.className = 'input';
+
+        const inputBalance = document.createElement('input');
+        inputBalance.type = 'number';
+        inputBalance.placeholder = 'Saldo Inicial';
+        inputBalance.value = 5;
+        inputBalance.id = `balance${i}`;
+        inputBalance.className = 'input';
+
+        playerInputs.appendChild(inputName);
+        playerInputs.appendChild(inputBalance);
     }
     document.getElementById('setup').style.display = 'none';
     document.getElementById('playerSetup').style.display = 'block';
@@ -35,7 +44,6 @@ function setupGame() {
 function startGame() {
     console.log("Start Game");
     const numPlayers = document.getElementById('numPlayers').value;
-    const initialBalance = document.getElementById('initialBalance').value;
     const playersDiv = document.getElementById('players');
     const betInputsDiv = document.getElementById('betInputs');
 
@@ -45,17 +53,18 @@ function startGame() {
 
     for (let i = 0; i < numPlayers; i++) {
         const playerName = document.getElementById(`player${i}`).value;
+        const initialBalance = parseFloat(document.getElementById(`balance${i}`).value);
         if (playerName) {
             players.push(playerName);
-            playerBalances[playerName] = parseFloat(initialBalance);
-            playerPreviousBalances[playerName] = parseFloat(initialBalance);
+            playerBalances[playerName] = initialBalance;
+            playerPreviousBalances[playerName] = initialBalance;
         }
     }
 
     players.forEach(player => {
         const div = document.createElement('div');
         div.id = `player-${player}`;
-        div.innerText = `${player}: ${playerBalances[player]}`;
+        div.innerText = `${player}: ${formatCurrency(playerBalances[player])}`;
         playersDiv.appendChild(div);
 
         const betSection = document.createElement('div');
@@ -132,7 +141,15 @@ function spinRoulette() {
 
     const rouletteNumberText = document.getElementById('rouletteNumberText');
     const rouletteSound = document.getElementById('rouletteSound');
-    rouletteSound.play().catch(error => console.error("Error playing sound:", error));
+
+    const playPromise = rouletteSound.play();
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            console.log("Sound playing...");
+        }).catch(error => {
+            console.error("Error playing sound:", error);
+        });
+    }
 
     const spinInterval = setInterval(() => {
         const currentNumber = Math.floor(Math.random() * 37);
@@ -239,12 +256,12 @@ function recordRound() {
 
         const playerElement = document.getElementById(`player-${player}`);
         if (playerElement) {
-            playerElement.innerText = `${player}: ${playerBalances[player]}`;
+            playerElement.innerText = `${player}: ${formatCurrency(playerBalances[player])}`;
         }
         console.log(`${player}: Balance - ${playerBalances[player]}`);
     });
 
-    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${houseBalance}`;
+    document.getElementById('houseBalance').innerText = `Saldo de la Casa: ${formatCurrency(houseBalance)}`;
     showBalances();
 }
 
@@ -278,33 +295,37 @@ function showBalances() {
 
         let betDetails = `
             <h3>${player}</h3>
-            <p>Saldo Anterior: ${previousBalance}</p>
+            <p>Saldo Anterior: ${formatCurrency(previousBalance)}</p>
             <p>Apuestas:</p>
             <ul>`;
         
         if (quadrantAmount > 0) {
-            betDetails += `<li>Cuadrante: ${quadrantBet} ${quadrantAmount} <span style="text-decoration: ${quadrantBet === quadrantResult ? 'underline' : 'none'}; font-style: ${quadrantBet !== quadrantResult ? 'italic' : 'normal'}">${quadrantBet === quadrantResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+            betDetails += `<li>${formatCurrency(quadrantAmount)} <span style="text-decoration: ${quadrantBet === quadrantResult ? 'underline' : 'none'}; font-style: ${quadrantBet !== quadrantResult ? 'italic' : 'normal'}">${quadrantBet === quadrantResult ? `(Ganó ${formatCurrency(quadrantAmount * 2)})` : '(Perdió)'}</span></li>`;
         }
         if (parityAmount > 0) {
-            betDetails += `<li>Paridad: ${parityBet} ${parityAmount} <span style="text-decoration: ${parityBet === parityResult ? 'underline' : 'none'}; font-style: ${parityBet !== parityResult ? 'italic' : 'normal'}">${parityBet === parityResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+            betDetails += `<li>${formatCurrency(parityAmount)} <span style="text-decoration: ${parityBet === parityResult ? 'underline' : 'none'}; font-style: ${parityBet !== parityResult ? 'italic' : 'normal'}">${parityBet === parityResult ? `(Ganó ${formatCurrency(parityAmount)})` : '(Perdió)'}</span></li>`;
         }
         if (colorAmount > 0) {
-            betDetails += `<li>Color: ${colorBet} ${colorAmount} <span style="text-decoration: ${colorBet === colorResult ? 'underline' : 'none'}; font-style: ${colorBet !== colorResult ? 'italic' : 'normal'}">${colorBet === colorResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+            betDetails += `<li>${formatCurrency(colorAmount)} <span style="text-decoration: ${colorBet === colorResult ? 'underline' : 'none'}; font-style: ${colorBet !== colorResult ? 'italic' : 'normal'}">${colorBet === colorResult ? `(Ganó ${formatCurrency(colorAmount)})` : '(Perdió)'}</span></li>`;
         }
         if (numberAmount > 0) {
-            betDetails += `<li>Número: ${numberBet} ${numberAmount} <span style="text-decoration: ${numberBet === numberResult ? 'underline' : 'none'}; font-style: ${numberBet !== numberResult ? 'italic' : 'normal'}">${numberBet === numberResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+            betDetails += `<li>${formatCurrency(numberAmount)} <span style="text-decoration: ${numberBet === numberResult ? 'underline' : 'none'}; font-style: ${numberBet !== numberResult ? 'italic' : 'normal'}">${numberBet === numberResult ? `(Ganó ${formatCurrency(numberAmount * 35)})` : '(Perdió)'}</span></li>`;
         }
         if (rangeAmount > 0) {
-            betDetails += `<li>Baja/Alta: ${rangeBet} ${rangeAmount} <span style="text-decoration: ${rangeBet === rangeResult ? 'underline' : 'none'}; font-style: ${rangeBet !== rangeResult ? 'italic' : 'normal'}">${rangeBet === rangeResult ? '(Ganó)' : '(Perdió)'}</span></li>`;
+            betDetails += `<li>${formatCurrency(rangeAmount)} <span style="text-decoration: ${rangeBet === rangeResult ? 'underline' : 'none'}; font-style: ${rangeBet !== rangeResult ? 'italic' : 'normal'}">${rangeBet === rangeResult ? `(Ganó ${formatCurrency(rangeAmount)})` : '(Perdió)'}</span></li>`;
         }
 
         betDetails += `</ul>
-            <p>Total Apostado: ${totalBets}</p>
-            <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${netResult}</p>
-            <p>Nuevo Saldo: ${currentBalance}</p>`;
+            <p>Total Apostado: ${formatCurrency(totalBets)}</p>
+            <p>${netResult >= 0 ? 'Ganancia' : 'Pérdida'}: ${formatCurrency(netResult)}</p>
+            <p>Nuevo Saldo: ${formatCurrency(currentBalance)}</p>`;
 
         balanceDiv.innerHTML = betDetails;
         playersDiv.appendChild(balanceDiv);
     });
     goToBalances(); // Mover aquí para asegurar la navegación
+}
+
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
