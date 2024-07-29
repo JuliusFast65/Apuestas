@@ -38,10 +38,14 @@
         <button onclick="spinRoulette()">Girar Ruleta</button>
         <br>
         <label for="numberResult">Número Resultante:</label>
-        <input type="number" id="numberResult" readonly>
+        <input type="number" id="numberResult">
         <br>
         <label for="colorResult">Color Resultante:</label>
-        <input type="text" id="colorResult" readonly>
+        <select id="colorResult">
+            <option value="rojo">Rojo</option>
+            <option value="negro">Negro</option>
+            <option value="verde">Verde</option>
+        </select>
         <br>
         <button onclick="recordRound()">Registrar Ronda</button>
         <audio id="rouletteSound" src="roullette.mp3"></audio>
